@@ -1,5 +1,10 @@
 #!/bin/bash
 
-export X509_USER_PROXY=/afs/cern.ch/user/a/afkiaras/proxies/x509_escape
-cd /afs/cern.ch/user/a/afkiaras/gfal_sam/
-python /afs/cern.ch/user/a/afkiaras/gfal_sam/gfal_sam.py
+export HOMEPATH="/afs/cern.ch/user/r/rdimaria"
+export LOCALPATH="${HOMEPATH}/gfal_sam/"
+export CRIC_URL="http://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma"
+
+cd $LOCALPATH
+export X509_USER_PROXY=${HOMEPATH}/proxies/x509up_escape
+
+python gfal_sam.py

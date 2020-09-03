@@ -1,3 +1,3 @@
-# Script producing mock traffic in the datalake managed by Rucio
+# Script producing mock traffic in the DataLake
 
-Basic script fetching list of sites from CRIC and performing operations to them (Upload, List, Download, Delete) and pushing the status of the operation to CERN Monit
+The script fetches the list of sites from CRIC and performs basic operations (Upload, List, Download, Delete), pushing the status of the operations to CERN Monit.

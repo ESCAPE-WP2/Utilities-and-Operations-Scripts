@@ -1,6 +1,7 @@
-# Syncing RSEs, Protocols, Distances from ESCAPE-CRIC
+# Synchronization of RSEs, Protocols, Distances from ESCAPE-CRIC
 
-## How to use:
-On a machine that the Rucio Server is installed and DB configured
+## How-to
 
-    $ python sync_cric_rucio.py
+The Rucio Server should be installed and the DB should be configured.
+
+    python sync_cric_rucio.py

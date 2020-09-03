@@ -126,12 +126,12 @@ class IAM_RUCIO_SYNC():
             dn = user[2]
             if not account.account_exists(InternalAccount(username)):
                 account.add_account(InternalAccount(username), AccountType.SERVICE, email)
-                logging.debug('Created account for User ****')
+                logging.debug('Created account for User ***')
             try:
                 identity.add_account_identity(dn, IdentityType.X509, InternalAccount(username), email)
-                logging.debug('Added identity for User ****')
+                logging.debug('Added identity for User ***')
             except:
-                logging.debug('Did not add identify for User ****')
+                logging.debug('Did not add identify for User ***')
 
             # Give account quota for all RSEs
             for rse_obj in rse.list_rses():
@@ -145,9 +145,9 @@ class IAM_RUCIO_SYNC():
 
 
 if __name__ == '__main__':
-    logging.info("Initializing IAM-RUCIO synchronization script.")
+    logging.info("* Sync to IAM * Initializing IAM-RUCIO synchronization script.")
     grid_test = IAM_RUCIO_SYNC(CONFIG_PATH)
     grid_test.generate()
 
     grid_test.sync()
-    logging.info("Sync successfully finished.")
+    logging.info("* Sync to IAM * Successfully completed.")

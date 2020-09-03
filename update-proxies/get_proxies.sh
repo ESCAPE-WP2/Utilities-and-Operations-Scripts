@@ -1,4 +1,6 @@
 #!/bin/bash
-cd /afs/cern.ch/user/a/afkiaras
-printf 'REPLACE_CERTIFICATE_PASSWORD_HERE' | voms-proxy-init --voms escape --out /afs/cern.ch/user/a/afkiaras/proxies/x509_escape
-printf 'REPLACE_CERTIFICATE_PASSWORD_HERE' | voms-proxy-init --voms dteam --out /afs/cern.ch/user/a/afkiaras/proxies/x509_dteam
+
+HOMEPATH="/afs/cern.ch/user/r/rdimaria"
+
+cd ${HOMEPATH}/proxies
+voms-proxy-init --cert escape_cern_xrdcert.pem --key escape_cern_xrdkey.pem --out x509up_escape --voms escape

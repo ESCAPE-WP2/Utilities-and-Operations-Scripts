@@ -46,10 +46,8 @@ class SAM_TEST():
             print(str(e))
             return "FAILED"
 
-
-LOCALPATH = "/afs/cern.ch/user/a/afkiaras/gfal_sam/"
-CRIC_URL = "http://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma"
-
+CRIC_URL = os.getenv("CRIC_URL","http://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma")
+LOCALPATH = os.getenv("LOCALPATH","./")
 
 def get_protocols():
     data = requests.get(CRIC_URL).json()
@@ -65,7 +63,7 @@ def check_protocol(site, hostname, port, protocol, path):
 
     filename = "sam_gfal_test" + str(uuid.uuid4())
     sam = SAM_TEST(hostname, port, protocol, path)
-    sam.generate_file(filename)
+    sam.generate_file(LOCALPATH + filename)
     upload_status = sam.upload(LOCALPATH + filename, filename)
     upload_json = {
         "site": site,
