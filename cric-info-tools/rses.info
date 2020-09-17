@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# ALPAMED-DPM
+export escape_alpamed_dpm_davs='davs://lapp-testse01.in2p3.fr:443/dpm/in2p3.fr/home/escape/rucio/lapp_dpm'
+export escape_alpamed_dpm_gsiftp='gsiftp://lapp-testse01.in2p3.fr:2811/dpm/in2p3.fr/home/escape/rucio/lapp_dpm'
+export escape_alpamed_dpm_root='root://lapp-testse01.in2p3.fr:1094//dpm/in2p3.fr/home/escape/rucio/lapp_dpm'
+
+# CNAF-STORM
+export escape_cnaf_storm_davs='davs://xfer.cr.cnaf.infn.it:8443/escape/rucio/cnaf_storm'
+
+# CNAF_CMS_TEMP
+export escape_cnaf_cms_temp_root='root://193.204.89.93:1094//escape_rucio/CNAF_CMS_TEMP'
+
+# DESY-DCACHE
+export escape_desy_dcache_root='root://dcache-se-doma.desy.de:1094/escape/wp2_rucio_testbed/desy_dcache'
+export escape_desy_dcache_davs='davs://dcache-door-doma01.desy.de:2880/escape/wp2_rucio_testbed/desy_dcache'
+export escape_desy_dcache_gsiftp='gsiftp://dcache-door-doma01.desy.de:2811/escape/wp2_rucio_testbed/desy_dcache'
+
+# EULAKE-1
+export escape_eulake_1_davs='davs://eoseulakehttp.cern.ch:443/eos/eulake/tests/rucio_test/eulake_1'
+export escape_eulake_1_gsiftp='gsiftp://eulakeftp.cern.ch:2811/eos/eulake/tests/rucio_test/eulake_1/'
+export escape_eulake_1_root='root://eulake.cern.ch:1094/eos/eulake/tests/rucio_test/eulake_1'
+
+# EULAKE-2
+export escape_eulake_2_root='root://eulake.cern.ch:1094/eos/eulake/tests/rucio_test/eulake_2'
+export escape_eulake_2_davs='davs://eoseulakehttp.cern.ch:443/eos/eulake/tests/rucio_test/eulake_2'
+export escape_eulake_2_gsiftp='gsiftp://eulakeftp.cern.ch:2811/eos/eulake/tests/rucio_test/eulake_2'
+
+# GSI-ROOT
+export escape_gsi_root_root='root://dclxwp2dlds1.gsi.de:1094//escape/gsi_root'
+
+# IN2P3-CC-DCACHE
+export escape_in2p3_cc_dcache_davs='davs://ccdcalitest10.in2p3.fr:2880/pnfs/in2p3.fr/data/escape/cc_in2p3_dcache'
+export escape_in2p3_cc_dcache_gsiftp='gsiftp://ccdcalitest10.in2p3.fr:2811/pnfs/in2p3.fr/data/escape/cc_in2p3_dcache'
+export escape_in2p3_cc_dcache_root='root://ccdcalitest10.in2p3.fr:1094/pnfs/in2p3.fr/data/escape/cc_in2p3_dcache'
+
+# INFN-NA-DPM
+export escape_infn_na_dpm_root='root://t2-dpm-dome.na.infn.it:1094/dpm/na.infn.it/home/escape/infn_na_dpm'
+
+# LAPP-DCACHE
+export escape_lapp_dcache_davs='davs://lapp-xdc01.in2p3.fr:2880/data/escape/rucio/lapp_dcache'
+
+# LAPP-WEBDAV
+export escape_lapp_webdav_davs='davs://https://lapp-esc02.in2p3.fr:8001/webdav'
+
+# PIC-DCACHE
+export escape_pic_dcache_davs='davs://door05.pic.es:8452/rucio/pic_dcache'
+export escape_pic_dcache_root='root://xrootd.pic.es:1094/pnfs/pic.es/data/escape/rucio/pic_dcache'
+
+# PIC-INJECT
+export escape_pic_inject_davs='davs://door05.pic.es:8452/rucio/pic_inject'
+export escape_pic_inject_root='root://xrootd.pic.es:1094/pnfs/pic.es/data/escape/rucio/pic_inject'
+
+# SARA-DCACHE
+export escape_sara_dcache_davs='davs://webdav.grid.sara.nl:2882/pnfs/grid.sara.nl/data/escape/disk/rucio/sara_dcache'
+export escape_sara_dcache_gsiftp='gsiftp://gridftp.grid.sara.nl:2811/pnfs/grid.sara.nl/data/escape/disk/rucio/sara_dcache'
+export escape_sara_dcache_root='root://lobster10.grid.surfsara.nl:1094/pnfs/grid.sara.nl/data/escape/disk/rucio/sara_dcache'
+
