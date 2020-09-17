@@ -1,0 +1,1399 @@
+{
+  "ALPAMED-DPM": {
+    "aprotocols": {
+      "delete_lan": [
+        "LAPP-DPM-root", 
+        "LAPP-DPM-gsiftp", 
+        "LAPP-DPM-davs"
+      ], 
+      "delete_wan": [
+        "LAPP-DPM-root", 
+        "LAPP-DPM-gsiftp", 
+        "LAPP-DPM-davs"
+      ], 
+      "read_lan": [
+        "LAPP-DPM-root", 
+        "LAPP-DPM-gsiftp", 
+        "LAPP-DPM-davs"
+      ], 
+      "read_wan": [
+        "LAPP-DPM-root", 
+        "LAPP-DPM-gsiftp", 
+        "LAPP-DPM-davs"
+      ], 
+      "third_party_copy": [
+        "LAPP-DPM-root", 
+        "LAPP-DPM-gsiftp", 
+        "LAPP-DPM-davs"
+      ], 
+      "write_lan": [
+        "LAPP-DPM-root", 
+        "LAPP-DPM-davs", 
+        "LAPP-DPM-gsiftp"
+      ], 
+      "write_wan": [
+        "LAPP-DPM-root", 
+        "LAPP-DPM-gsiftp"
+      ]
+    }, 
+    "country": "NULL", 
+    "country_code": "", 
+    "credentials": "", 
+    "fts": "https://fts3-pilot.cern.ch:8446", 
+    "id": 6, 
+    "is_deterministic": true, 
+    "is_volatile": false, 
+    "last_modified": "2020-06-29T16:11:17.931434", 
+    "lfn2pfn_algorithm": "hash", 
+    "name": "ALPAMED-DPM", 
+    "protocols": {
+      "LAPP-DPM-davs": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy", 
+          "write_lan"
+        ], 
+        "endpoint": "lapp-testse01.in2p3.fr:443", 
+        "ext_attrs": "", 
+        "flavour": "davs", 
+        "id": 26, 
+        "name": "LAPP-DPM-davs", 
+        "path": "/dpm/in2p3.fr/home/escape/rucio/lapp_dpm"
+      }, 
+      "LAPP-DPM-gsiftp": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy", 
+          "write_lan", 
+          "write_wan"
+        ], 
+        "endpoint": "lapp-testse01.in2p3.fr:2811", 
+        "ext_attrs": "", 
+        "flavour": "gsiftp", 
+        "id": 27, 
+        "name": "LAPP-DPM-gsiftp", 
+        "path": "/dpm/in2p3.fr/home/escape/rucio/lapp_dpm"
+      }, 
+      "LAPP-DPM-root": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy", 
+          "write_lan", 
+          "write_wan"
+        ], 
+        "endpoint": "lapp-testse01.in2p3.fr:1094", 
+        "ext_attrs": "", 
+        "flavour": "root", 
+        "id": 28, 
+        "name": "LAPP-DPM-root", 
+        "path": "//dpm/in2p3.fr/home/escape/rucio/lapp_dpm"
+      }
+    }, 
+    "rcsite": "NULL", 
+    "rcsite_state": "ACTIVE", 
+    "resource": {
+      "basepath": "", 
+      "endpoint": null, 
+      "id": 2, 
+      "name": "res", 
+      "service": "res"
+    }, 
+    "site": "LAPP-DPM", 
+    "site_state": "ACTIVE", 
+    "siteinfo": {
+      "latitude": 0.0, 
+      "longitude": 0.0, 
+      "timezone": "", 
+      "vo_name": "ESCAPE"
+    }, 
+    "spaceusage_url": "", 
+    "state": "ACTIVE", 
+    "state_comment": "", 
+    "type": "DISK", 
+    "verify_checksum": true
+  }, 
+  "CNAF-STORM": {
+    "aprotocols": {
+      "delete_lan": [
+        "CNAF-STORM-davs"
+      ], 
+      "delete_wan": [
+        "CNAF-STORM-davs"
+      ], 
+      "read_lan": [
+        "CNAF-STORM-davs"
+      ], 
+      "read_wan": [
+        "CNAF-STORM-davs"
+      ], 
+      "third_party_copy": [
+        "CNAF-STORM-davs"
+      ], 
+      "write_lan": [
+        "CNAF-STORM-davs"
+      ], 
+      "write_wan": [
+        "CNAF-STORM-davs"
+      ]
+    }, 
+    "country": "NULL", 
+    "country_code": "", 
+    "credentials": "", 
+    "fts": "https://fts3-pilot.cern.ch:8446", 
+    "id": 8, 
+    "is_deterministic": true, 
+    "is_volatile": false, 
+    "last_modified": "2020-03-20T12:53:01.719577", 
+    "lfn2pfn_algorithm": "hash", 
+    "name": "CNAF-STORM", 
+    "protocols": {
+      "CNAF-STORM-davs": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy", 
+          "write_lan", 
+          "write_wan"
+        ], 
+        "endpoint": "xfer.cr.cnaf.infn.it:8443", 
+        "ext_attrs": "", 
+        "flavour": "davs", 
+        "id": 12, 
+        "name": "CNAF-STORM-davs", 
+        "path": "/escape/rucio/cnaf_storm"
+      }
+    }, 
+    "rcsite": "NULL", 
+    "rcsite_state": "ACTIVE", 
+    "resource": {
+      "basepath": "", 
+      "endpoint": null, 
+      "id": 1, 
+      "name": "NULL", 
+      "service": "NULL"
+    }, 
+    "site": "CNAF-STORM-ES", 
+    "site_state": "ACTIVE", 
+    "siteinfo": {
+      "latitude": 0.0, 
+      "longitude": 0.0, 
+      "timezone": "", 
+      "vo_name": "ESCAPE"
+    }, 
+    "spaceusage_url": "", 
+    "state": "ACTIVE", 
+    "state_comment": "", 
+    "type": "DISK", 
+    "verify_checksum": true
+  }, 
+  "CNAF_CMS_TEMP": {
+    "aprotocols": {
+      "delete_lan": [
+        "CNAF_CMS_TEMP_root"
+      ], 
+      "delete_wan": [
+        "CNAF_CMS_TEMP_root"
+      ], 
+      "read_lan": [
+        "CNAF_CMS_TEMP_root"
+      ], 
+      "read_wan": [
+        "CNAF_CMS_TEMP_root"
+      ], 
+      "third_party_copy": [
+        "CNAF_CMS_TEMP_root"
+      ], 
+      "write_lan": [
+        "CNAF_CMS_TEMP_root"
+      ]
+    }, 
+    "country": "NULL", 
+    "country_code": "", 
+    "credentials": "", 
+    "fts": "https://fts3-pilot.cern.ch:8446", 
+    "id": 13, 
+    "is_deterministic": true, 
+    "is_volatile": false, 
+    "last_modified": "2020-03-20T12:53:18.070635", 
+    "lfn2pfn_algorithm": "identity", 
+    "name": "CNAF_CMS_TEMP", 
+    "protocols": {
+      "CNAF_CMS_TEMP_root": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy", 
+          "write_lan"
+        ], 
+        "endpoint": "193.204.89.93:1094", 
+        "ext_attrs": "", 
+        "flavour": "root", 
+        "id": 31, 
+        "name": "CNAF_CMS_TEMP_root", 
+        "path": "//escape_rucio/CNAF_CMS_TEMP"
+      }
+    }, 
+    "rcsite": "NULL", 
+    "rcsite_state": "ACTIVE", 
+    "resource": {
+      "basepath": "", 
+      "endpoint": null, 
+      "id": 1, 
+      "name": "NULL", 
+      "service": "NULL"
+    }, 
+    "site": "CNAF_CMS_TEMP", 
+    "site_state": "ACTIVE", 
+    "siteinfo": {
+      "latitude": 0.0, 
+      "longitude": 0.0, 
+      "timezone": "", 
+      "vo_name": "ESCAPE"
+    }, 
+    "spaceusage_url": "", 
+    "state": "ACTIVE", 
+    "state_comment": "", 
+    "type": "DISK", 
+    "verify_checksum": false
+  }, 
+  "DESY-DCACHE": {
+    "aprotocols": {
+      "delete_lan": [
+        "desy-dcache-gsiftp", 
+        "desy-dcache-davs", 
+        "DESY-DCACHE-root"
+      ], 
+      "delete_wan": [
+        "desy-dcache-gsiftp", 
+        "desy-dcache-davs", 
+        "DESY-DCACHE-root"
+      ], 
+      "read_lan": [
+        "desy-dcache-gsiftp", 
+        "desy-dcache-davs", 
+        "DESY-DCACHE-root"
+      ], 
+      "read_wan": [
+        "desy-dcache-gsiftp", 
+        "desy-dcache-davs", 
+        "DESY-DCACHE-root"
+      ], 
+      "third_party_copy": [
+        "desy-dcache-gsiftp", 
+        "desy-dcache-davs", 
+        "DESY-DCACHE-root"
+      ], 
+      "write_lan": [
+        "desy-dcache-gsiftp", 
+        "desy-dcache-davs", 
+        "DESY-DCACHE-root"
+      ], 
+      "write_wan": [
+        "desy-dcache-davs", 
+        "desy-dcache-gsiftp", 
+        "DESY-DCACHE-root"
+      ]
+    }, 
+    "country": "NULL", 
+    "country_code": "", 
+    "credentials": "", 
+    "fts": "https://fts3-pilot.cern.ch:8446", 
+    "id": 3, 
+    "is_deterministic": true, 
+    "is_volatile": false, 
+    "last_modified": "2019-11-20T16:50:47.992353", 
+    "lfn2pfn_algorithm": "hash", 
+    "name": "DESY-DCACHE", 
+    "protocols": {
+      "DESY-DCACHE-root": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy", 
+          "write_lan", 
+          "write_wan"
+        ], 
+        "endpoint": "dcache-se-doma.desy.de:1094", 
+        "ext_attrs": "", 
+        "flavour": "root", 
+        "id": 20, 
+        "name": "DESY-DCACHE-root", 
+        "path": "/escape/wp2_rucio_testbed/desy_dcache"
+      }, 
+      "desy-dcache-davs": {
+        "activities": [
+          "write_wan", 
+          "read_lan", 
+          "read_wan", 
+          "delete_wan", 
+          "delete_lan", 
+          "third_party_copy", 
+          "write_lan"
+        ], 
+        "endpoint": "dcache-door-doma01.desy.de:2880", 
+        "ext_attrs": "", 
+        "flavour": "davs", 
+        "id": 3, 
+        "name": "desy-dcache-davs", 
+        "path": "/escape/wp2_rucio_testbed/desy_dcache"
+      }, 
+      "desy-dcache-gsiftp": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "third_party_copy", 
+          "read_wan", 
+          "read_lan", 
+          "write_lan", 
+          "write_wan"
+        ], 
+        "endpoint": "dcache-door-doma01.desy.de:2811", 
+        "ext_attrs": "", 
+        "flavour": "gsiftp", 
+        "id": 4, 
+        "name": "desy-dcache-gsiftp", 
+        "path": "/escape/wp2_rucio_testbed/desy_dcache"
+      }
+    }, 
+    "rcsite": "NULL", 
+    "rcsite_state": "ACTIVE", 
+    "resource": {
+      "basepath": "", 
+      "endpoint": null, 
+      "id": 2, 
+      "name": "res", 
+      "service": "res"
+    }, 
+    "site": "DESY-DCACHE", 
+    "site_state": "ACTIVE", 
+    "siteinfo": {
+      "latitude": 0.0, 
+      "longitude": 0.0, 
+      "timezone": "", 
+      "vo_name": "ESCAPE"
+    }, 
+    "spaceusage_url": "", 
+    "state": "ACTIVE", 
+    "state_comment": "", 
+    "type": "DISK", 
+    "verify_checksum": true
+  }, 
+  "EULAKE-1": {
+    "aprotocols": {
+      "delete_lan": [
+        "EULAKE-1-davs", 
+        "EULAKE-1-root", 
+        "EULAKE-1-gsiftp"
+      ], 
+      "delete_wan": [
+        "EULAKE-1-davs", 
+        "EULAKE-1-root", 
+        "EULAKE-1-gsiftp"
+      ], 
+      "read_lan": [
+        "EULAKE-1-davs", 
+        "EULAKE-1-root", 
+        "EULAKE-1-gsiftp"
+      ], 
+      "read_wan": [
+        "EULAKE-1-davs", 
+        "EULAKE-1-root", 
+        "EULAKE-1-gsiftp"
+      ], 
+      "third_party_copy": [
+        "EULAKE-1-gsiftp", 
+        "EULAKE-1-davs", 
+        "EULAKE-1-root"
+      ], 
+      "write_lan": [
+        "EULAKE-1-gsiftp", 
+        "EULAKE-1-root", 
+        "EULAKE-1-davs"
+      ], 
+      "write_wan": [
+        "EULAKE-1-gsiftp", 
+        "EULAKE-1-root", 
+        "EULAKE-1-davs"
+      ]
+    }, 
+    "country": "NULL", 
+    "country_code": "", 
+    "credentials": "", 
+    "fts": "https://fts3-pilot.cern.ch:8446", 
+    "id": 4, 
+    "is_deterministic": true, 
+    "is_volatile": false, 
+    "last_modified": "2019-11-20T16:50:53.233567", 
+    "lfn2pfn_algorithm": "hash", 
+    "name": "EULAKE-1", 
+    "protocols": {
+      "EULAKE-1-davs": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy", 
+          "write_lan", 
+          "write_wan"
+        ], 
+        "endpoint": "eoseulakehttp.cern.ch:443", 
+        "ext_attrs": "", 
+        "flavour": "davs", 
+        "id": 13, 
+        "name": "EULAKE-1-davs", 
+        "path": "/eos/eulake/tests/rucio_test/eulake_1"
+      }, 
+      "EULAKE-1-gsiftp": {
+        "activities": [
+          "write_lan", 
+          "write_wan", 
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy"
+        ], 
+        "endpoint": "eulakeftp.cern.ch:2811", 
+        "ext_attrs": "", 
+        "flavour": "gsiftp", 
+        "id": 15, 
+        "name": "EULAKE-1-gsiftp", 
+        "path": "/eos/eulake/tests/rucio_test/eulake_1/"
+      }, 
+      "EULAKE-1-root": {
+        "activities": [
+          "write_lan", 
+          "write_wan", 
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy"
+        ], 
+        "endpoint": "eulake.cern.ch:1094", 
+        "ext_attrs": "", 
+        "flavour": "root", 
+        "id": 14, 
+        "name": "EULAKE-1-root", 
+        "path": "/eos/eulake/tests/rucio_test/eulake_1"
+      }
+    }, 
+    "rcsite": "NULL", 
+    "rcsite_state": "ACTIVE", 
+    "resource": {
+      "basepath": "", 
+      "endpoint": null, 
+      "id": 2, 
+      "name": "res", 
+      "service": "res"
+    }, 
+    "site": "EULAKE-1", 
+    "site_state": "ACTIVE", 
+    "siteinfo": {
+      "latitude": 0.0, 
+      "longitude": 0.0, 
+      "timezone": "", 
+      "vo_name": "ESCAPE"
+    }, 
+    "spaceusage_url": "", 
+    "state": "ACTIVE", 
+    "state_comment": "", 
+    "type": "DISK", 
+    "verify_checksum": true
+  }, 
+  "EULAKE-2": {
+    "aprotocols": {
+      "delete_lan": [
+        "EULAKE-2-davs", 
+        "EULAKE-2-gsiftp", 
+        "EULAKE-2"
+      ], 
+      "delete_wan": [
+        "EULAKE-2-davs", 
+        "EULAKE-2", 
+        "EULAKE-2-gsiftp"
+      ], 
+      "read_lan": [
+        "EULAKE-2-davs", 
+        "EULAKE-2", 
+        "EULAKE-2-gsiftp"
+      ], 
+      "read_wan": [
+        "EULAKE-2-davs", 
+        "EULAKE-2", 
+        "EULAKE-2-gsiftp"
+      ], 
+      "third_party_copy": [
+        "EULAKE-2-gsiftp", 
+        "EULAKE-2-davs", 
+        "EULAKE-2"
+      ], 
+      "write_lan": [
+        "EULAKE-2-davs", 
+        "EULAKE-2", 
+        "EULAKE-2-gsiftp"
+      ], 
+      "write_wan": [
+        "EULAKE-2-davs", 
+        "EULAKE-2", 
+        "EULAKE-2-gsiftp"
+      ]
+    }, 
+    "country": "NULL", 
+    "country_code": "", 
+    "credentials": "", 
+    "fts": "https://fts3-pilot.cern.ch:8446", 
+    "id": 5, 
+    "is_deterministic": true, 
+    "is_volatile": false, 
+    "last_modified": "2019-11-20T16:51:02.966664", 
+    "lfn2pfn_algorithm": "hash", 
+    "name": "EULAKE-2", 
+    "protocols": {
+      "EULAKE-2": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "third_party_copy", 
+          "write_lan", 
+          "read_wan", 
+          "write_wan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy", 
+          "write_lan", 
+          "write_wan", 
+          "delete_lan"
+        ], 
+        "endpoint": "eulake.cern.ch:1094", 
+        "ext_attrs": "", 
+        "flavour": "root", 
+        "id": 1, 
+        "name": "EULAKE-2", 
+        "path": "/eos/eulake/tests/rucio_test/eulake_2"
+      }, 
+      "EULAKE-2-davs": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy", 
+          "write_lan", 
+          "write_wan"
+        ], 
+        "endpoint": "eoseulakehttp.cern.ch:443", 
+        "ext_attrs": "", 
+        "flavour": "davs", 
+        "id": 16, 
+        "name": "EULAKE-2-davs", 
+        "path": "/eos/eulake/tests/rucio_test/eulake_2"
+      }, 
+      "EULAKE-2-gsiftp": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy", 
+          "write_lan", 
+          "write_wan"
+        ], 
+        "endpoint": "eulakeftp.cern.ch:2811", 
+        "ext_attrs": "", 
+        "flavour": "gsiftp", 
+        "id": 18, 
+        "name": "EULAKE-2-gsiftp", 
+        "path": "/eos/eulake/tests/rucio_test/eulake_2"
+      }
+    }, 
+    "rcsite": "NULL", 
+    "rcsite_state": "ACTIVE", 
+    "resource": {
+      "basepath": "", 
+      "endpoint": null, 
+      "id": 2, 
+      "name": "res", 
+      "service": "res"
+    }, 
+    "site": "EULAKE-2", 
+    "site_state": "ACTIVE", 
+    "siteinfo": {
+      "latitude": 0.0, 
+      "longitude": 0.0, 
+      "timezone": "", 
+      "vo_name": "ESCAPE"
+    }, 
+    "spaceusage_url": "", 
+    "state": "ACTIVE", 
+    "state_comment": "", 
+    "type": "DISK", 
+    "verify_checksum": true
+  }, 
+  "GSI-ROOT": {
+    "aprotocols": {
+      "delete_lan": [
+        "GSI-ROOT-root"
+      ], 
+      "delete_wan": [
+        "GSI-ROOT-root"
+      ], 
+      "read_lan": [
+        "GSI-ROOT-root"
+      ], 
+      "read_wan": [
+        "GSI-ROOT-root"
+      ], 
+      "third_party_copy": [
+        "GSI-ROOT-root"
+      ], 
+      "write_lan": [
+        "GSI-ROOT-root"
+      ], 
+      "write_wan": [
+        "GSI-ROOT-root"
+      ]
+    }, 
+    "country": "NULL", 
+    "country_code": "", 
+    "credentials": "", 
+    "fts": "https://fts3-pilot.cern.ch:8446", 
+    "id": 15, 
+    "is_deterministic": true, 
+    "is_volatile": false, 
+    "last_modified": "2020-05-25T09:45:01.986029", 
+    "lfn2pfn_algorithm": "hash", 
+    "name": "GSI-ROOT", 
+    "protocols": {
+      "GSI-ROOT-root": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy", 
+          "write_lan", 
+          "write_wan"
+        ], 
+        "endpoint": "dclxwp2dlds1.gsi.de:1094", 
+        "ext_attrs": "", 
+        "flavour": "root", 
+        "id": 34, 
+        "name": "GSI-ROOT-root", 
+        "path": "//escape/gsi_root"
+      }
+    }, 
+    "rcsite": "NULL", 
+    "rcsite_state": "ACTIVE", 
+    "resource": {
+      "basepath": "", 
+      "endpoint": null, 
+      "id": 1, 
+      "name": "NULL", 
+      "service": "NULL"
+    }, 
+    "site": "GSI-ROOT", 
+    "site_state": "ACTIVE", 
+    "siteinfo": {
+      "latitude": 0.0, 
+      "longitude": 0.0, 
+      "timezone": "", 
+      "vo_name": "ESCAPE"
+    }, 
+    "spaceusage_url": "", 
+    "state": "ACTIVE", 
+    "state_comment": "", 
+    "type": "DISK", 
+    "verify_checksum": true
+  }, 
+  "IN2P3-CC-DCACHE": {
+    "aprotocols": {
+      "delete_lan": [
+        "CC-IN2P3-DCACHE-root", 
+        "CC-IN2P3-DCACHE-gsiftp", 
+        "CC-IN2P3-DCACHE-davs"
+      ], 
+      "delete_wan": [
+        "CC-IN2P3-DCACHE-root", 
+        "CC-IN2P3-DCACHE-gsiftp", 
+        "CC-IN2P3-DCACHE-davs"
+      ], 
+      "read_lan": [
+        "CC-IN2P3-DCACHE-root", 
+        "CC-IN2P3-DCACHE-gsiftp", 
+        "CC-IN2P3-DCACHE-davs"
+      ], 
+      "read_wan": [
+        "CC-IN2P3-DCACHE-root", 
+        "CC-IN2P3-DCACHE-gsiftp", 
+        "CC-IN2P3-DCACHE-davs"
+      ], 
+      "third_party_copy": [
+        "CC-IN2P3-DCACHE-gsiftp", 
+        "CC-IN2P3-DCACHE-davs", 
+        "CC-IN2P3-DCACHE-root"
+      ], 
+      "write_lan": [
+        "CC-IN2P3-DCACHE-root", 
+        "CC-IN2P3-DCACHE-gsiftp", 
+        "CC-IN2P3-DCACHE-davs"
+      ], 
+      "write_wan": [
+        "CC-IN2P3-DCACHE-root", 
+        "CC-IN2P3-DCACHE-gsiftp", 
+        "CC-IN2P3-DCACHE-davs"
+      ]
+    }, 
+    "country": "NULL", 
+    "country_code": "", 
+    "credentials": "", 
+    "fts": "https://fts3-pilot.cern.ch:8446", 
+    "id": 7, 
+    "is_deterministic": true, 
+    "is_volatile": false, 
+    "last_modified": "2019-11-20T16:51:08.863288", 
+    "lfn2pfn_algorithm": "hash", 
+    "name": "IN2P3-CC-DCACHE", 
+    "protocols": {
+      "CC-IN2P3-DCACHE-davs": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy", 
+          "write_lan", 
+          "write_wan"
+        ], 
+        "endpoint": "ccdcalitest10.in2p3.fr:2880", 
+        "ext_attrs": "", 
+        "flavour": "davs", 
+        "id": 9, 
+        "name": "CC-IN2P3-DCACHE-davs", 
+        "path": "/pnfs/in2p3.fr/data/escape/cc_in2p3_dcache"
+      }, 
+      "CC-IN2P3-DCACHE-gsiftp": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy", 
+          "write_lan", 
+          "write_wan"
+        ], 
+        "endpoint": "ccdcalitest10.in2p3.fr:2811", 
+        "ext_attrs": "", 
+        "flavour": "gsiftp", 
+        "id": 10, 
+        "name": "CC-IN2P3-DCACHE-gsiftp", 
+        "path": "/pnfs/in2p3.fr/data/escape/cc_in2p3_dcache"
+      }, 
+      "CC-IN2P3-DCACHE-root": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy", 
+          "write_lan", 
+          "write_wan"
+        ], 
+        "endpoint": "ccdcalitest10.in2p3.fr:1094", 
+        "ext_attrs": "", 
+        "flavour": "root", 
+        "id": 11, 
+        "name": "CC-IN2P3-DCACHE-root", 
+        "path": "/pnfs/in2p3.fr/data/escape/cc_in2p3_dcache"
+      }
+    }, 
+    "rcsite": "NULL", 
+    "rcsite_state": "ACTIVE", 
+    "resource": {
+      "basepath": "", 
+      "endpoint": null, 
+      "id": 2, 
+      "name": "res", 
+      "service": "res"
+    }, 
+    "site": "IN2P3-CC-DCACHE", 
+    "site_state": "ACTIVE", 
+    "siteinfo": {
+      "latitude": 0.0, 
+      "longitude": 0.0, 
+      "timezone": "", 
+      "vo_name": "ESCAPE"
+    }, 
+    "spaceusage_url": "", 
+    "state": "ACTIVE", 
+    "state_comment": "", 
+    "type": "DISK", 
+    "verify_checksum": true
+  }, 
+  "INFN-NA-DPM": {
+    "aprotocols": {
+      "delete_lan": [
+        "NA-INFN-root"
+      ], 
+      "delete_wan": [
+        "NA-INFN-root"
+      ], 
+      "read_lan": [
+        "NA-INFN-root"
+      ], 
+      "read_wan": [
+        "NA-INFN-root"
+      ], 
+      "third_party_copy": [
+        "NA-INFN-root"
+      ], 
+      "write_lan": [
+        "NA-INFN-root"
+      ], 
+      "write_wan": [
+        "NA-INFN-root"
+      ]
+    }, 
+    "country": "NULL", 
+    "country_code": "", 
+    "credentials": "", 
+    "fts": "https://fts3-pilot.cern.ch:8446", 
+    "id": 12, 
+    "is_deterministic": true, 
+    "is_volatile": false, 
+    "last_modified": "2019-11-21T13:26:53.753569", 
+    "lfn2pfn_algorithm": "hash", 
+    "name": "INFN-NA-DPM", 
+    "protocols": {
+      "NA-INFN-root": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy", 
+          "write_lan", 
+          "write_wan"
+        ], 
+        "endpoint": "t2-dpm-dome.na.infn.it:1094", 
+        "ext_attrs": "", 
+        "flavour": "root", 
+        "id": 29, 
+        "name": "NA-INFN-root", 
+        "path": "/dpm/na.infn.it/home/escape/infn_na_dpm"
+      }
+    }, 
+    "rcsite": "NULL", 
+    "rcsite_state": "ACTIVE", 
+    "resource": {
+      "basepath": "", 
+      "endpoint": null, 
+      "id": 1, 
+      "name": "NULL", 
+      "service": "NULL"
+    }, 
+    "site": "INFN-NAPOLI-DPM", 
+    "site_state": "ACTIVE", 
+    "siteinfo": {
+      "latitude": 0.0, 
+      "longitude": 0.0, 
+      "timezone": "", 
+      "vo_name": "ESCAPE"
+    }, 
+    "spaceusage_url": "", 
+    "state": "ACTIVE", 
+    "state_comment": "", 
+    "type": "DISK", 
+    "verify_checksum": true
+  }, 
+  "LAPP-DCACHE": {
+    "aprotocols": {
+      "delete_lan": [
+        "LAPP-DCACHE-davs"
+      ], 
+      "delete_wan": [
+        "LAPP-DCACHE-davs"
+      ], 
+      "read_lan": [
+        "LAPP-DCACHE-davs"
+      ], 
+      "read_wan": [
+        "LAPP-DCACHE-davs"
+      ], 
+      "third_party_copy": [
+        "LAPP-DCACHE-davs"
+      ], 
+      "write_lan": [
+        "LAPP-DCACHE-davs"
+      ], 
+      "write_wan": [
+        "LAPP-DCACHE-davs"
+      ]
+    }, 
+    "country": "NULL", 
+    "country_code": "", 
+    "credentials": "", 
+    "fts": "https://fts3-pilot.cern.ch:8446", 
+    "id": 9, 
+    "is_deterministic": true, 
+    "is_volatile": false, 
+    "last_modified": "2019-11-20T16:51:13.315247", 
+    "lfn2pfn_algorithm": "hash", 
+    "name": "LAPP-DCACHE", 
+    "protocols": {
+      "LAPP-DCACHE-davs": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy", 
+          "write_lan", 
+          "write_wan"
+        ], 
+        "endpoint": "lapp-xdc01.in2p3.fr:2880", 
+        "ext_attrs": "", 
+        "flavour": "davs", 
+        "id": 19, 
+        "name": "LAPP-DCACHE-davs", 
+        "path": "/data/escape/rucio/lapp_dcache"
+      }
+    }, 
+    "rcsite": "NULL", 
+    "rcsite_state": "ACTIVE", 
+    "resource": {
+      "basepath": "", 
+      "endpoint": null, 
+      "id": 1, 
+      "name": "NULL", 
+      "service": "NULL"
+    }, 
+    "site": "LAPP-DCACHE", 
+    "site_state": "ACTIVE", 
+    "siteinfo": {
+      "latitude": 0.0, 
+      "longitude": 0.0, 
+      "timezone": "", 
+      "vo_name": "ESCAPE"
+    }, 
+    "spaceusage_url": "", 
+    "state": "ACTIVE", 
+    "state_comment": "", 
+    "type": "DISK", 
+    "verify_checksum": true
+  }, 
+  "LAPP-WEBDAV": {
+    "aprotocols": {
+      "delete_lan": [
+        "LAPP-WEBDAV-webdav"
+      ], 
+      "delete_wan": [
+        "LAPP-WEBDAV-webdav"
+      ], 
+      "read_lan": [
+        "LAPP-WEBDAV-webdav"
+      ], 
+      "read_wan": [
+        "LAPP-WEBDAV-webdav"
+      ], 
+      "third_party_copy": [
+        "LAPP-WEBDAV-webdav"
+      ], 
+      "write_lan": [
+        "LAPP-WEBDAV-webdav"
+      ], 
+      "write_wan": [
+        "LAPP-WEBDAV-webdav"
+      ]
+    }, 
+    "country": "NULL", 
+    "country_code": "", 
+    "credentials": "", 
+    "fts": "https://fts3-pilot.cern.ch:8446", 
+    "id": 16, 
+    "is_deterministic": true, 
+    "is_volatile": false, 
+    "last_modified": "2020-06-05T16:47:57.255476", 
+    "lfn2pfn_algorithm": "hash", 
+    "name": "LAPP-WEBDAV", 
+    "protocols": {
+      "LAPP-WEBDAV-webdav": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy", 
+          "write_lan", 
+          "write_wan"
+        ], 
+        "endpoint": "https://lapp-esc02.in2p3.fr:8001", 
+        "ext_attrs": "", 
+        "flavour": "davs", 
+        "id": 35, 
+        "name": "LAPP-WEBDAV-webdav", 
+        "path": "/webdav"
+      }
+    }, 
+    "rcsite": "NULL", 
+    "rcsite_state": "ACTIVE", 
+    "resource": {
+      "basepath": "", 
+      "endpoint": null, 
+      "id": 1, 
+      "name": "NULL", 
+      "service": "NULL"
+    }, 
+    "site": "LAPP-DCACHE", 
+    "site_state": "ACTIVE", 
+    "siteinfo": {
+      "latitude": 0.0, 
+      "longitude": 0.0, 
+      "timezone": "", 
+      "vo_name": "ESCAPE"
+    }, 
+    "spaceusage_url": "", 
+    "state": "ACTIVE", 
+    "state_comment": "", 
+    "type": "DISK", 
+    "verify_checksum": false
+  }, 
+  "PIC-DCACHE": {
+    "aprotocols": {
+      "delete_lan": [
+        "PIC-DCACHE-davs", 
+        "PIC-DCACHE-root"
+      ], 
+      "delete_wan": [
+        "PIC-DCACHE-davs", 
+        "PIC-DCACHE-root"
+      ], 
+      "read_lan": [
+        "PIC-DCACHE-davs", 
+        "PIC-DCACHE-root"
+      ], 
+      "read_wan": [
+        "PIC-DCACHE-davs", 
+        "PIC-DCACHE-root"
+      ], 
+      "third_party_copy": [
+        "PIC-DCACHE-davs", 
+        "PIC-DCACHE-root"
+      ], 
+      "write_lan": [
+        "PIC-DCACHE-davs", 
+        "PIC-DCACHE-root"
+      ], 
+      "write_wan": [
+        "PIC-DCACHE-davs", 
+        "PIC-DCACHE-root"
+      ]
+    }, 
+    "country": "NULL", 
+    "country_code": "", 
+    "credentials": "", 
+    "fts": "https://fts3-pilot.cern.ch:8446", 
+    "id": 11, 
+    "is_deterministic": true, 
+    "is_volatile": false, 
+    "last_modified": "2019-11-20T16:51:25.774627", 
+    "lfn2pfn_algorithm": "hash", 
+    "name": "PIC-DCACHE", 
+    "protocols": {
+      "PIC-DCACHE-davs": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy", 
+          "write_lan", 
+          "write_wan"
+        ], 
+        "endpoint": "door05.pic.es:8452", 
+        "ext_attrs": "", 
+        "flavour": "davs", 
+        "id": 24, 
+        "name": "PIC-DCACHE-davs", 
+        "path": "/rucio/pic_dcache"
+      }, 
+      "PIC-DCACHE-root": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy", 
+          "write_lan", 
+          "write_wan"
+        ], 
+        "endpoint": "xrootd.pic.es:1094", 
+        "ext_attrs": "", 
+        "flavour": "root", 
+        "id": 25, 
+        "name": "PIC-DCACHE-root", 
+        "path": "/pnfs/pic.es/data/escape/rucio/pic_dcache"
+      }
+    }, 
+    "rcsite": "NULL", 
+    "rcsite_state": "ACTIVE", 
+    "resource": {
+      "basepath": "", 
+      "endpoint": null, 
+      "id": 1, 
+      "name": "NULL", 
+      "service": "NULL"
+    }, 
+    "site": "PIC-DCACHE", 
+    "site_state": "ACTIVE", 
+    "siteinfo": {
+      "latitude": 0.0, 
+      "longitude": 0.0, 
+      "timezone": "", 
+      "vo_name": "ESCAPE"
+    }, 
+    "spaceusage_url": "", 
+    "state": "ACTIVE", 
+    "state_comment": "", 
+    "type": "DISK", 
+    "verify_checksum": true
+  }, 
+  "PIC-INJECT": {
+    "aprotocols": {
+      "delete_lan": [
+        "PIC-INJECT-davs", 
+        "PIC-INJECT-root"
+      ], 
+      "delete_wan": [
+        "PIC-INJECT-davs", 
+        "PIC-INJECT-root"
+      ], 
+      "read_lan": [
+        "PIC-INJECT-davs", 
+        "PIC-INJECT-root"
+      ], 
+      "read_wan": [
+        "PIC-INJECT-davs", 
+        "PIC-INJECT-root"
+      ], 
+      "third_party_copy": [
+        "PIC-INJECT-davs", 
+        "PIC-INJECT-root"
+      ], 
+      "write_lan": [
+        "PIC-INJECT-davs", 
+        "PIC-INJECT-root"
+      ], 
+      "write_wan": [
+        "PIC-INJECT-davs", 
+        "PIC-INJECT-root"
+      ]
+    }, 
+    "country": "NULL", 
+    "country_code": "", 
+    "credentials": "", 
+    "fts": "https://fts3-pilot.cern.ch:8446", 
+    "id": 14, 
+    "is_deterministic": false, 
+    "is_volatile": false, 
+    "last_modified": "2020-03-26T10:15:54.076417", 
+    "lfn2pfn_algorithm": "identity", 
+    "name": "PIC-INJECT", 
+    "protocols": {
+      "PIC-INJECT-davs": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy", 
+          "write_lan", 
+          "write_wan"
+        ], 
+        "endpoint": "door05.pic.es:8452", 
+        "ext_attrs": "", 
+        "flavour": "davs", 
+        "id": 32, 
+        "name": "PIC-INJECT-davs", 
+        "path": "/rucio/pic_inject"
+      }, 
+      "PIC-INJECT-root": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy", 
+          "write_lan", 
+          "write_wan"
+        ], 
+        "endpoint": "xrootd.pic.es:1094", 
+        "ext_attrs": "", 
+        "flavour": "root", 
+        "id": 33, 
+        "name": "PIC-INJECT-root", 
+        "path": "/pnfs/pic.es/data/escape/rucio/pic_inject"
+      }
+    }, 
+    "rcsite": "NULL", 
+    "rcsite_state": "ACTIVE", 
+    "resource": {
+      "basepath": "", 
+      "endpoint": null, 
+      "id": 1, 
+      "name": "NULL", 
+      "service": "NULL"
+    }, 
+    "site": "PIC-DCACHE", 
+    "site_state": "ACTIVE", 
+    "siteinfo": {
+      "latitude": 0.0, 
+      "longitude": 0.0, 
+      "timezone": "", 
+      "vo_name": "ESCAPE"
+    }, 
+    "spaceusage_url": "", 
+    "state": "ACTIVE", 
+    "state_comment": "rucio.rse.protocols.gfal.Default", 
+    "type": "DISK", 
+    "verify_checksum": true
+  }, 
+  "SARA-DCACHE": {
+    "aprotocols": {
+      "delete_lan": [
+        "SARA-DCACHE-gsiftp", 
+        "SARA-DCACHE-root", 
+        "SARA-DCACHE-davs"
+      ], 
+      "delete_wan": [
+        "SARA-DCACHE-gsiftp", 
+        "SARA-DCACHE-root", 
+        "SARA-DCACHE-davs"
+      ], 
+      "read_lan": [
+        "SARA-DCACHE-gsiftp", 
+        "SARA-DCACHE-root", 
+        "SARA-DCACHE-davs"
+      ], 
+      "read_wan": [
+        "SARA-DCACHE-gsiftp", 
+        "SARA-DCACHE-root", 
+        "SARA-DCACHE-davs"
+      ], 
+      "third_party_copy": [
+        "SARA-DCACHE-gsiftp", 
+        "SARA-DCACHE-root", 
+        "SARA-DCACHE-davs"
+      ], 
+      "write_lan": [
+        "SARA-DCACHE-root", 
+        "SARA-DCACHE-davs"
+      ], 
+      "write_wan": [
+        "SARA-DCACHE-root", 
+        "SARA-DCACHE-davs"
+      ]
+    }, 
+    "country": "NULL", 
+    "country_code": "", 
+    "credentials": "", 
+    "fts": "https://fts3-pilot.cern.ch:8446", 
+    "id": 10, 
+    "is_deterministic": true, 
+    "is_volatile": false, 
+    "last_modified": "2019-11-20T16:51:30.167683", 
+    "lfn2pfn_algorithm": "hash", 
+    "name": "SARA-DCACHE", 
+    "protocols": {
+      "SARA-DCACHE-davs": {
+        "activities": [
+          "write_lan", 
+          "write_wan", 
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy"
+        ], 
+        "endpoint": "webdav.grid.sara.nl:2882", 
+        "ext_attrs": "", 
+        "flavour": "davs", 
+        "id": 23, 
+        "name": "SARA-DCACHE-davs", 
+        "path": "/pnfs/grid.sara.nl/data/escape/disk/rucio/sara_dcache"
+      }, 
+      "SARA-DCACHE-gsiftp": {
+        "activities": [
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy"
+        ], 
+        "endpoint": "gridftp.grid.sara.nl:2811", 
+        "ext_attrs": "", 
+        "flavour": "gsiftp", 
+        "id": 21, 
+        "name": "SARA-DCACHE-gsiftp", 
+        "path": "/pnfs/grid.sara.nl/data/escape/disk/rucio/sara_dcache"
+      }, 
+      "SARA-DCACHE-root": {
+        "activities": [
+          "write_lan", 
+          "write_wan", 
+          "delete_lan", 
+          "delete_wan", 
+          "read_lan", 
+          "read_wan", 
+          "third_party_copy"
+        ], 
+        "endpoint": "lobster10.grid.surfsara.nl:1094", 
+        "ext_attrs": "", 
+        "flavour": "root", 
+        "id": 22, 
+        "name": "SARA-DCACHE-root", 
+        "path": "/pnfs/grid.sara.nl/data/escape/disk/rucio/sara_dcache"
+      }
+    }, 
+    "rcsite": "NULL", 
+    "rcsite_state": "ACTIVE", 
+    "resource": {
+      "basepath": "", 
+      "endpoint": null, 
+      "id": 1, 
+      "name": "NULL", 
+      "service": "NULL"
+    }, 
+    "site": "SARA-DCACHE", 
+    "site_state": "ACTIVE", 
+    "siteinfo": {
+      "latitude": 0.0, 
+      "longitude": 0.0, 
+      "timezone": "", 
+      "vo_name": "ESCAPE"
+    }, 
+    "spaceusage_url": "", 
+    "state": "ACTIVE", 
+    "state_comment": "", 
+    "type": "DISK", 
+    "verify_checksum": true
+  }
+}
