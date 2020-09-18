@@ -18,7 +18,7 @@ export escape_desy_dcache_gsiftp='gsiftp://dcache-door-doma01.desy.de:2811/escap
 
 # EULAKE-1
 export escape_eulake_1_davs='davs://eoseulakehttp.cern.ch:443/eos/eulake/tests/rucio_test/eulake_1'
-export escape_eulake_1_gsiftp='gsiftp://eulakeftp.cern.ch:2811/eos/eulake/tests/rucio_test/eulake_1/'
+export escape_eulake_1_gsiftp='gsiftp://eulakeftp.cern.ch:2811/eos/eulake/tests/rucio_test/eulake_1'
 export escape_eulake_1_root='root://eulake.cern.ch:1094/eos/eulake/tests/rucio_test/eulake_1'
 
 # EULAKE-2
