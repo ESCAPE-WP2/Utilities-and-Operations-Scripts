@@ -41,9 +41,9 @@ def main():
             protocol_name = protocol['flavour']
             endpoint = protocol['endpoint']
             path = protocol['path']
-            full_path = "{}://{}{}".format(protocol_name, endpoint, path)
+            endpoint_url = "{}://{}{}".format(protocol_name, endpoint, path)
             export_file.write("export {}_{}_{}='{}'\n".format(
-                EXPORT_PREFIX, rse_label, protocol_name, full_path))
+                EXPORT_PREFIX, rse_label, protocol_name, endpoint_url))
 
         export_file.write("\n")
         logger.info("{} exporting DONE".format(rse))
