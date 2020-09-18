@@ -27,7 +27,8 @@ export escape_eulake_2_davs='davs://eoseulakehttp.cern.ch:443/eos/eulake/tests/r
 export escape_eulake_2_gsiftp='gsiftp://eulakeftp.cern.ch:2811/eos/eulake/tests/rucio_test/eulake_2'
 
 # GSI-ROOT
-export escape_gsi_root_root='root://dclxwp2dlds1.gsi.de:1094//escape/gsi_root'
+export escape_gsi_root_davs='davs://dclxwp2dlds1.gsi.de:443/escape/gsi_root'
+export escape_gsi_root_root='root://dclxwp2dlds1.gsi.de:1094/escape/gsi_root'
 
 # IN2P3-CC-DCACHE
 export escape_in2p3_cc_dcache_davs='davs://ccdcalitest10.in2p3.fr:2880/pnfs/in2p3.fr/data/escape/cc_in2p3_dcache'
