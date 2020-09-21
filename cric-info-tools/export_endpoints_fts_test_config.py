@@ -22,7 +22,7 @@ config_map['overwrite'] = False
 def main():
 
     parser = argparse.ArgumentParser(
-        description="Export datalake rses for bash.")
+        description="Export datalake rses for fts-analysis.")
 
     parser.add_argument("-o",
                         required=True,
