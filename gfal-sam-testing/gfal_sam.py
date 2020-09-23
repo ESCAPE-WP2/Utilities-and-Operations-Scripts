@@ -17,8 +17,7 @@ class SAM_TEST():
     def upload(self, local_filename, remote_filename):
         target = "{protocol}://{hostname}:{port}{prefix}/{filename}".format(
             protocol=self.protocol, hostname=self.endpoint, port=self.port, prefix=self.prefix, filename=remote_filename)
-        status, error_code = self._call(
-            ["gfal-copy", "-f", local_filename, target])
+        status, error_code = self._call(["gfal-copy", "-f", local_filename, target])
         return status, error_code
 
     def download(self, local_filename, remote_filename):
@@ -48,7 +47,7 @@ class SAM_TEST():
             return "SUCCESS", "None"
         except Exception as e:
             print(e.output.decode("utf-8"))
-            return "FAILED", e.output.decode("utf-8")
+            return "FAILED", e.output.decode("utf-8") 
 
 
 CRIC_URL = os.getenv(
@@ -80,7 +79,7 @@ def check_protocol(site, hostname, port, protocol, path):
         "protocol": protocol,
         "path": path,
         "operation": 'UPLOAD',
-        "status": upload_status,
+        "status": upload_status, 
         "error_code": error_code,
         "timestamp": int(time.time()),
         "vo": "ESCAPE",
