@@ -39,7 +39,7 @@ def main():
     with open(export_file, 'w') as fp:
         cric_rse_data = requests.get(CRIC_RSES_URL).json()
         for rse in cric_rse_data:
-
+            logger.info("Exporting {}".format(rse))
             rse_label = rse.replace("-", "_").lower()
 
             protocols = cric_rse_data[rse]['protocols']
@@ -54,6 +54,7 @@ def main():
                     config_map['protocols'][protocol_name].append(endpoint_url)
                 else:
                     config_map['protocols'][protocol_name] = []
+                    config_map['protocols'][protocol_name].append(endpoint_url)
 
         fp.write(json.dumps(config_map, indent=4))
 
