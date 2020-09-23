@@ -15,19 +15,23 @@ class SAM_TEST():
         self.prefix = prefix
 
     def upload(self, local_filename, remote_filename):
-        target = "{protocol}://{hostname}:{port}{prefix}/{filename}".format(protocol=self.protocol, hostname=self.endpoint, port=self.port, prefix=self.prefix, filename=remote_filename)
-        status = self._call(["gfal-copy", "-f", local_filename, target])
-        return status
+        target = "{protocol}://{hostname}:{port}{prefix}/{filename}".format(
+            protocol=self.protocol, hostname=self.endpoint, port=self.port, prefix=self.prefix, filename=remote_filename)
+        status, error_code = self._call(
+            ["gfal-copy", "-f", local_filename, target])
+        return status, error_code
 
     def download(self, local_filename, remote_filename):
-        target = "{protocol}://{hostname}:{port}{prefix}/{filename}".format(protocol=self.protocol, hostname=self.endpoint, port=self.port, prefix=self.prefix, filename=remote_filename)
-        status = self._call(["gfal-copy", target, local_filename])
-        return status
+        target = "{protocol}://{hostname}:{port}{prefix}/{filename}".format(
+            protocol=self.protocol, hostname=self.endpoint, port=self.port, prefix=self.prefix, filename=remote_filename)
+        status, error_code = self._call(["gfal-copy", target, local_filename])
+        return status, error_code
 
     def delete(self, remote_filename):
-        target = "{protocol}://{hostname}:{port}{prefix}/{filename}".format(protocol=self.protocol, hostname=self.endpoint, port=self.port, prefix=self.prefix, filename=remote_filename)
-        status = self._call(["gfal-rm", target])
-        return status
+        target = "{protocol}://{hostname}:{port}{prefix}/{filename}".format(
+            protocol=self.protocol, hostname=self.endpoint, port=self.port, prefix=self.prefix, filename=remote_filename)
+        status, error_code = self._call(["gfal-rm", target])
+        return status, error_code
 
     def generate_file(self, filepath):
         f = open(filepath, "w+")
@@ -40,21 +44,25 @@ class SAM_TEST():
     def _call(self, command_array):
         try:
             print(command_array)
-            subprocess.check_call(command_array)
-            return "SUCCESS"
+            subprocess.check_output(command_array, stderr=subprocess.STDOUT)
+            return "SUCCESS", "None"
         except Exception as e:
-            print(str(e))
-            return "FAILED"
+            print(e.output.decode("utf-8"))
+            return "FAILED", e.output.decode("utf-8")
 
-CRIC_URL = os.getenv("CRIC_URL","http://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma")
-LOCALPATH = os.getenv("LOCALPATH","./")
+
+CRIC_URL = os.getenv(
+    "CRIC_URL", "http://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma")
+LOCALPATH = os.getenv("LOCALPATH", "./")
+
 
 def get_protocols():
     data = requests.get(CRIC_URL).json()
     protocols = []
     for rse in data['rses']:
         for protocol in data['rses'][rse]['protocols']:
-            protocol_json = {'site':rse, 'hostname': protocol['hostname'], 'port': protocol['port'], 'scheme':protocol['scheme'], 'prefix': protocol['prefix']}
+            protocol_json = {'site': rse, 'hostname': protocol['hostname'],
+                             'port': protocol['port'], 'scheme': protocol['scheme'], 'prefix': protocol['prefix']}
             protocols.append(protocol_json)
     return protocols
 
@@ -64,7 +72,7 @@ def check_protocol(site, hostname, port, protocol, path):
     filename = "sam_gfal_test" + str(uuid.uuid4())
     sam = SAM_TEST(hostname, port, protocol, path)
     sam.generate_file(LOCALPATH + filename)
-    upload_status = sam.upload(LOCALPATH + filename, filename)
+    upload_status, error_code = sam.upload(LOCALPATH + filename, filename)
     upload_json = {
         "site": site,
         "endpoint": hostname,
@@ -73,6 +81,7 @@ def check_protocol(site, hostname, port, protocol, path):
         "path": path,
         "operation": 'UPLOAD',
         "status": upload_status,
+        "error_code": error_code,
         "timestamp": int(time.time()),
         "vo": "ESCAPE",
         "producer": "escape_wp2",
@@ -81,9 +90,10 @@ def check_protocol(site, hostname, port, protocol, path):
 
     if upload_status == "SUCCESS":
         sam.delete_local_file(LOCALPATH + filename)
-        download_status = sam.download(remote_filename=filename, local_filename=LOCALPATH + filename)
+        download_status, error_code = sam.download(
+            remote_filename=filename, local_filename=LOCALPATH + filename)
     else:
-        download_status = "SKIPPED"
+        download_status, error_code = "SKIPPED", "None"
 
     download_json = {
         "site": site,
@@ -93,15 +103,16 @@ def check_protocol(site, hostname, port, protocol, path):
         "path": path,
         "operation": 'DOWNLOAD',
         "status": download_status,
+        "error_code": error_code,
         "timestamp": int(time.time()),
         "vo": "ESCAPE",
         "producer": "escape_wp2",
         "type": "sam_gfal"
     }
     if download_status == "SUCCESS":
-        delete_status = sam.delete(filename)
+        delete_status, error_code = sam.delete(filename)
     else:
-        delete_status = "SKIPPED"
+        delete_status, error_code = "SKIPPED", "None"
 
     delete_json = {
         "site": site,
@@ -111,6 +122,7 @@ def check_protocol(site, hostname, port, protocol, path):
         "path": path,
         "operation": 'DELETE',
         "status": delete_status,
+        "error_code": error_code,
         "timestamp": int(time.time()),
         "vo": "ESCAPE",
         "producer": "escape_wp2",
@@ -124,5 +136,7 @@ def check_protocol(site, hostname, port, protocol, path):
 if __name__ == "__main__":
     protocols = get_protocols()
     for protocol in protocols:
-        result = check_protocol(protocol['site'], protocol['hostname'], protocol['port'], protocol['scheme'], protocol['prefix'] + '/gfal_sam/testing')
-        requests.post('http://monit-metrics:10012/', data=json.dumps(result), headers={ "Content-Type": "application/json; charset=UTF-8"})
+        result = check_protocol(protocol['site'], protocol['hostname'], protocol['port'],
+                                protocol['scheme'], protocol['prefix'] + '/gfal_sam/testing')
+        requests.post('http://monit-metrics:10012/', data=json.dumps(result),
+                      headers={"Content-Type": "application/json; charset=UTF-8"})
