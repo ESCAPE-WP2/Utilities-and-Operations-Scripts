@@ -10,10 +10,10 @@ CRIC_RSES_URL = 'http://escape-cric.cern.ch/api/doma/rse/query/?json'
 
 config_map = {}
 config_map['protocols'] = {}
-config_map['input_testing_folder'] = "fts-tests"
-config_map['output_testing_folder'] = "fts-tests-dest"
+config_map['input_testing_folder'] = "fts-testing/src"
+config_map['output_testing_folder'] = "fts-testing/dest"
 config_map['num_of_jobs'] = 1
-config_map['num_of_files'] = [4]
+config_map['num_of_files'] = [5]
 config_map['filesizes'] = [10]
 config_map['checksum'] = "none"
 config_map['overwrite'] = False

@@ -4,6 +4,7 @@ import os
 import time
 import requests
 import json
+from datetime import datetime
 
 
 class SAM_TEST():
@@ -82,6 +83,7 @@ def check_protocol(site, hostname, port, protocol, path):
         "operation": 'UPLOAD',
         "status": upload_status,
         "error_code": error_code,
+        "str_datetime": str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")),
         "timestamp": int(time.time()),
         "vo": "ESCAPE",
         "producer": "escape_wp2",
@@ -104,6 +106,7 @@ def check_protocol(site, hostname, port, protocol, path):
         "operation": 'DOWNLOAD',
         "status": download_status,
         "error_code": error_code,
+        "str_datetime": str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")),
         "timestamp": int(time.time()),
         "vo": "ESCAPE",
         "producer": "escape_wp2",
@@ -123,6 +126,7 @@ def check_protocol(site, hostname, port, protocol, path):
         "operation": 'DELETE',
         "status": delete_status,
         "error_code": error_code,
+        "str_datetime": str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")),
         "timestamp": int(time.time()),
         "vo": "ESCAPE",
         "producer": "escape_wp2",
