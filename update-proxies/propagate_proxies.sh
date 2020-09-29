@@ -6,7 +6,7 @@ KUBERNETESCLUSTER="${HOMEPATH}/escape-wp2-k8s"
 # Propagates proxy to FTS and Kubernetes Cluster
 export X509_USER_PROXY=${HOMEPATH}/proxies/x509up_escape
 eval $(ai-rc "ESCAPE WP2 CERN")
-export KUBECONFIG=${KUBERNETESCLUSTER}/config
+export KUBECONFIG=${KUBERNETESCLUSTER}/k8s_cluster_config
 cd ${KUBERNETESCLUSTER}
 cp ${X509_USER_PROXY} x509up
 for OUTPUT in $(kubectl get pods | cut -d " " -f1 | grep daemons)
