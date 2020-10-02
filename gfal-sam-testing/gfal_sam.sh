@@ -1,10 +1,9 @@
 #!/bin/bash
 
-export HOMEPATH="/afs/cern.ch/user/r/rdimaria"
-export LOCALPATH="${HOMEPATH}/gfal_sam/"
-export CRIC_URL="http://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma"
+export LOCALPATH="/afs/cern.ch/user/r/ridona/escape/wp2-github/Utilities-and-Operations-Scripts/gfal-sam-testing/gfal_sam/"
 
-cd $LOCALPATH
-export X509_USER_PROXY=${HOMEPATH}/proxies/x509up_escape
+/usr/bin/voms-proxy-init -voms escape
+export X509_USER_PROXY=/tmp/x509up_u127450
 
-python gfal_sam.py
+mkdir -p $LOCALPATH
+/usr/bin/python /afs/cern.ch/user/r/ridona/escape/wp2-github/Utilities-and-Operations-Scripts/gfal-sam-testing/gfal_sam.py
