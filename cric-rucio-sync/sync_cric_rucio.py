@@ -31,6 +31,12 @@ def format_protocols(protocols, impl):
             ext_attrs = None
         else:
             ext_attrs = cric_prot["ext_attrs"]
+
+        if cric_prot['domains'].get("third_party_copy", None):
+            if cric_prot['domains']['third_party_copy'].get("read", None):
+                if cric_prot['domains']['third_party_copy'].get("write", None):
+                    cric_prot['domains']['wan']['third_party_copy'] = 1
+
         protocol = {
             "extended_attributes": ext_attrs,
             "hostname": cric_prot["hostname"],
@@ -116,7 +122,8 @@ def format_accounts(accounts):
         account_dic = {}
         account_dic['account'] = InternalAccount(account)
         account_dic['email'] = accounts[account]['email']
-        account_dic['identities'] = format_identities(accounts[account]['profiles'])
+        account_dic['identities'] = format_identities(
+            accounts[account]['profiles'])
         new_accounts.append(account_dic)
     return new_accounts
 
@@ -130,6 +137,6 @@ if __name__ == '__main__':
     distances = data["distances"]
     import_distances(distances)
 
-    cric_accounts = requests.get(CRIC_URL_ACCOUNTS).json()
-    new_accounts = format_accounts(cric_accounts)
+    # cric_accounts = requests.get(CRIC_URL_ACCOUNTS).json()
+    # new_accounts = format_accounts(cric_accounts)
     # import_accounts(new_accounts)
