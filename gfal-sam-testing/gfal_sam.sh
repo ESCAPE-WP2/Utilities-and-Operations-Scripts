@@ -2,7 +2,7 @@
 
 export LOCALPATH="/afs/cern.ch/user/r/ridona/escape/wp2-github/Utilities-and-Operations-Scripts/gfal-sam-testing/gfal_sam/"
 
-kdestroy #ad-hoc solution for account:rizart
+kdestroy # ad-hoc solution for account:ridona@eulake
 /usr/bin/voms-proxy-init -voms escape
 export X509_USER_PROXY=/tmp/x509up_u127450
 
