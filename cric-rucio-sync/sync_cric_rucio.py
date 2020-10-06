@@ -163,6 +163,7 @@ if __name__ == '__main__':
     rses = requests.get(CRIC_URL).json()
     rses_d = data_d['rses']
     new_rses = format_rses(rses_d, rses)
+    # https://github.com/rucio/rucio/blob/master/lib/rucio/core/importer.py#L34
     import_rses(new_rses)
 
     distances = data_d["distances"]

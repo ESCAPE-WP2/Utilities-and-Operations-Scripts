@@ -13,7 +13,7 @@ config_map['protocols'] = {}
 config_map['testing_folder'] = "fts-testing"
 config_map['num_of_jobs'] = 1
 config_map['num_of_files'] = [5]
-config_map['filesizes'] = [10]
+config_map['filesizes'] = [5]
 config_map['checksum'] = "none"
 config_map['overwrite'] = False
 
