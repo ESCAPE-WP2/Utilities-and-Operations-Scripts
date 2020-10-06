@@ -19,7 +19,8 @@ import requests
 from rucio.core.importer import import_rses, import_distances, import_accounts
 from rucio.common.types import InternalAccount
 
-CRIC_URL = 'http://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma'
+CRIC_URL = 'http://escape-cric.cern.ch/api/doma/rse/query/?json'
+CRIC_URL_D = 'http://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma'
 CRIC_URL_ACCOUNTS = 'http://escape-cric.cern.ch/api/accounts/user/query/?json'
 
 
@@ -35,7 +36,10 @@ def format_protocols(protocols, impl):
         if cric_prot['domains'].get("third_party_copy", None):
             if cric_prot['domains']['third_party_copy'].get("read", None):
                 if cric_prot['domains']['third_party_copy'].get("write", None):
-                    cric_prot['domains']['wan']['third_party_copy'] = cric_prot['domains']['third_party_copy']['write']
+                    cric_prot['domains']['wan']['third_party_copy'] = cric_prot[
+                        'domains']['third_party_copy']['write']
+                else:
+                    cric_prot['domains']['wan']['third_party_copy'] = 0
             cric_prot['domains'].pop('third_party_copy', None)
 
         protocol = {
@@ -51,31 +55,50 @@ def format_protocols(protocols, impl):
     return new_protocols
 
 
-def format_rses(rses):
+def format_rses(rses_d, rses):
     new_rses = {}
-    for rse in rses:
+    for rse in rses_d:
         rse_name = rse
-        cric_data = rses[rse]
+        cric_data = rses_d[rse]
         data = {
-            "MaxBeingDeletedFiles": cric_data["MaxBeingDeletedFiles"],
-            "MinFreeSpace": cric_data["MinFreeSpace"],
-            "availability_delete": cric_data["availability_delete"],
-            "availability_read": cric_data["availability_read"],
-            "availability_write": cric_data["availability_write"],
-            "country_name": cric_data["country_name"],
-            "deterministic": cric_data["deterministic"],
-            "fts": cric_data["fts"],
-            "impl": cric_data["impl"],
-            "latitude": cric_data["latitude"],
-            "lfn2pfn_algorithm": cric_data["lfn2pfn_algorithm"],
-            "longitude": cric_data["longitude"],
-            "region_code": cric_data["region_code"],
-            "rse": rse_name,
-            "rse_type": cric_data["rse_type"],
-            "staging_area": cric_data["staging_area"],
-            "timezone": cric_data["timezone"],
-            "updated_at": cric_data["updated_at"],
-            "volatile": cric_data["volatile"],
+            "MaxBeingDeletedFiles":
+                cric_data["MaxBeingDeletedFiles"],
+            "MinFreeSpace":
+                cric_data["MinFreeSpace"],
+            "availability_delete":
+                cric_data["availability_delete"],
+            "availability_read":
+                cric_data["availability_read"],
+            "availability_write":
+                cric_data["availability_write"],
+            "country_name":
+                cric_data["country_name"],
+            "deterministic":
+                cric_data["deterministic"],
+            "fts":
+                cric_data["fts"],
+            "impl":
+                cric_data["impl"],
+            "latitude":
+                cric_data["latitude"],
+            "lfn2pfn_algorithm":
+                cric_data["lfn2pfn_algorithm"],
+            "longitude":
+                cric_data["longitude"],
+            "region_code":
+                cric_data["region_code"],
+            "rse":
+                rse_name,
+            "rse_type":
+                cric_data["rse_type"],
+            "staging_area":
+                cric_data["staging_area"],
+            "timezone":
+                cric_data["timezone"],
+            "updated_at":
+                cric_data["updated_at"],
+            "volatile":
+                cric_data["volatile"],
 
             # Data visible on CRIC but not on Rucio
             # "id": 8, Might need to do get_rse_id("Name") or assign new one
@@ -84,20 +107,26 @@ def format_rses(rses):
             # "state": "ACTIVE",
 
             # Missing from CRIC
-            "city": "Missing from CRIC",
-            "availability": "7",
-            "credentials": "null",
-            "created_at": "",
-            "verify_checksum": "True",
+            "city":
+                "Missing from CRIC",
+            "availability":
+                "7",
+            "credentials":
+                "null",
+            "created_at":
+                "",
+            "verify_checksum":
+                rses[rse]['verify_checksum'],
             "attributes": {
                 rse_name: "true",
                 "fts": cric_data["fts"],
-                "verify_checksum": "True",
+                "verify_checksum": rses[rse]['verify_checksum'],
                 "lfn2pfn_algorithm": cric_data["lfn2pfn_algorithm"]
             },
 
             # Protocols
-            "protocols": format_protocols(cric_data["protocols"], cric_data["impl"])
+            "protocols":
+                format_protocols(cric_data["protocols"], cric_data["impl"])
         }
         new_rses[rse_name] = data
     return new_rses
@@ -130,12 +159,13 @@ def format_accounts(accounts):
 
 
 if __name__ == '__main__':
-    data = requests.get(CRIC_URL).json()
-    rses = data['rses']
-    new_rses = format_rses(rses)
+    data_d = requests.get(CRIC_URL_D).json()
+    rses = requests.get(CRIC_URL).json()
+    rses_d = data_d['rses']
+    new_rses = format_rses(rses_d, rses)
     import_rses(new_rses)
 
-    distances = data["distances"]
+    distances = data_d["distances"]
     import_distances(distances)
 
     # cric_accounts = requests.get(CRIC_URL_ACCOUNTS).json()
