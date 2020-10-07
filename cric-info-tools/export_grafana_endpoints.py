@@ -13,16 +13,14 @@ def main():
     parser = argparse.ArgumentParser(
         description="Export datalake rse endpoints for Grafana dashboards.")
 
-    parser.add_argument("-i",
-                        required=False,
-                        dest="input_file",
-                        help="")
+    parser.add_argument("-i", required=False, dest="input_file", help="")
 
     arg = parser.parse_args()
     input_file = str(arg.input_file)
 
     logging.basicConfig(format='%(asctime)s %(message)s',
-                        datefmt='%d/%m/%Y %I:%M:%S %p', level=logging.INFO)
+                        datefmt='%d/%m/%Y %I:%M:%S %p',
+                        level=logging.INFO)
     logger = logging.getLogger()
 
     disabled_rses = []

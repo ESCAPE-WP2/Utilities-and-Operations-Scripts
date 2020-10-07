@@ -14,23 +14,31 @@ def main():
     parser = argparse.ArgumentParser(
         description="Export datalake rses for bash.")
 
-    parser.add_argument("-o",
-                        required=True,
-                        dest="export_file",
-                        help="")
+    parser.add_argument("-o", required=True, dest="export_file", help="")
+    parser.add_argument("-i", required=False, dest="input_file", help="")
 
     arg = parser.parse_args()
     export_file = str(arg.export_file)
+    input_file = str(arg.input_file)
 
     logging.basicConfig(format='%(asctime)s %(message)s',
-                        datefmt='%d/%m/%Y %I:%M:%S %p', level=logging.INFO)
+                        datefmt='%d/%m/%Y %I:%M:%S %p',
+                        level=logging.INFO)
     logger = logging.getLogger()
+
+    disabled_rses = []
+    if input_file != 'None':
+        with open(input_file) as f:
+            content = f.readlines()
+        disabled_rses = [x.strip() for x in content]
 
     with open(export_file, 'w+') as fp:
         fp.write("#!/bin/bash\n\n")
         # export bash info
         cric_rse_data = requests.get(CRIC_RSES_URL).json()
         for rse in cric_rse_data:
+            if rse in disabled_rses:
+                continue
             logger.info("Exporting {}".format(rse))
             rse_label = rse.replace("-", "_").lower()
             fp.write("# {}\n".format(rse))
@@ -40,8 +48,7 @@ def main():
                 protocol_name = protocol['flavour']
                 endpoint = protocol['endpoint']
                 path = protocol['path']
-                endpoint_url = "{}://{}{}".format(protocol_name,
-                                                  endpoint, path)
+                endpoint_url = "{}://{}{}".format(protocol_name, endpoint, path)
                 fp.write("export {}_{}_{}='{}'\n".format(
                     EXPORT_PREFIX, rse_label, protocol_name, endpoint_url))
 

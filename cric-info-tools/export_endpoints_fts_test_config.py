@@ -8,14 +8,18 @@ import os
 
 CRIC_RSES_URL = 'http://escape-cric.cern.ch/api/doma/rse/query/?json'
 
-config_map = {}
-config_map['protocols'] = {}
-config_map['testing_folder'] = "fts-testing"
-config_map['num_of_jobs'] = 1
-config_map['num_of_files'] = [5]
-config_map['filesizes'] = [5]
-config_map['checksum'] = "none"
-config_map['overwrite'] = False
+config_map = {
+    "protocols": {},
+    "testing_folder": "fts-testing",
+    "num_of_jobs": 1,
+    "num_of_files": [4],
+    "filesizes": [1],
+    "checksum": "none",
+    "overwrite": False,
+    "metadata": {
+        "activity": "functional-testing"
+    }
+}
 
 
 def main():
@@ -23,21 +27,16 @@ def main():
     parser = argparse.ArgumentParser(
         description="Export datalake rses for fts-analysis.")
 
-    parser.add_argument("-o",
-                        required=True,
-                        dest="export_file",
-                        help="")
-    parser.add_argument("-i",
-                        required=False,
-                        dest="input_file",
-                        help="")
+    parser.add_argument("-o", required=True, dest="export_file", help="")
+    parser.add_argument("-i", required=False, dest="input_file", help="")
 
     arg = parser.parse_args()
     export_file = str(arg.export_file)
     input_file = str(arg.input_file)
 
     logging.basicConfig(format='%(asctime)s %(message)s',
-                        datefmt='%d/%m/%Y %I:%M:%S %p', level=logging.INFO)
+                        datefmt='%d/%m/%Y %I:%M:%S %p',
+                        level=logging.INFO)
     logger = logging.getLogger()
 
     disabled_rses = []
