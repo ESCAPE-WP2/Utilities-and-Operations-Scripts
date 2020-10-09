@@ -17,20 +17,32 @@ class SAM_TEST():
 
     def upload(self, local_filename, remote_filename):
         target = "{protocol}://{hostname}:{port}{prefix}/{filename}".format(
-            protocol=self.protocol, hostname=self.endpoint, port=self.port, prefix=self.prefix, filename=remote_filename)
+            protocol=self.protocol,
+            hostname=self.endpoint,
+            port=self.port,
+            prefix=self.prefix,
+            filename=remote_filename)
         status, error_code = self._call(
             ["gfal-copy", "-f", local_filename, target])
         return status, error_code
 
     def download(self, local_filename, remote_filename):
         target = "{protocol}://{hostname}:{port}{prefix}/{filename}".format(
-            protocol=self.protocol, hostname=self.endpoint, port=self.port, prefix=self.prefix, filename=remote_filename)
+            protocol=self.protocol,
+            hostname=self.endpoint,
+            port=self.port,
+            prefix=self.prefix,
+            filename=remote_filename)
         status, error_code = self._call(["gfal-copy", target, local_filename])
         return status, error_code
 
     def delete(self, remote_filename):
         target = "{protocol}://{hostname}:{port}{prefix}/{filename}".format(
-            protocol=self.protocol, hostname=self.endpoint, port=self.port, prefix=self.prefix, filename=remote_filename)
+            protocol=self.protocol,
+            hostname=self.endpoint,
+            port=self.port,
+            prefix=self.prefix,
+            filename=remote_filename)
         status, error_code = self._call(["gfal-rm", target])
         return status, error_code
 
@@ -53,7 +65,8 @@ class SAM_TEST():
 
 
 CRIC_URL = os.getenv(
-    "CRIC_URL", "http://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma")
+    "CRIC_URL",
+    "http://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma")
 LOCALPATH = os.getenv("LOCALPATH", "./")
 
 
@@ -62,8 +75,13 @@ def get_protocols():
     protocols = []
     for rse in data['rses']:
         for protocol in data['rses'][rse]['protocols']:
-            protocol_json = {'site': rse, 'hostname': protocol['hostname'],
-                             'port': protocol['port'], 'scheme': protocol['scheme'], 'prefix': protocol['prefix']}
+            protocol_json = {
+                'site': rse,
+                'hostname': protocol['hostname'],
+                'port': protocol['port'],
+                'scheme': protocol['scheme'],
+                'prefix': protocol['prefix']
+            }
             protocols.append(protocol_json)
     return protocols
 
@@ -92,8 +110,9 @@ def check_protocol(site, hostname, port, protocol, path):
 
     if upload_status == "SUCCESS":
         sam.delete_local_file(LOCALPATH + filename)
-        download_status, error_code = sam.download(
-            remote_filename=filename, local_filename=LOCALPATH + filename)
+        download_status, error_code = sam.download(remote_filename=filename,
+                                                   local_filename=LOCALPATH +
+                                                   filename)
     else:
         download_status, error_code = "SKIPPED", "None"
 
@@ -140,7 +159,11 @@ def check_protocol(site, hostname, port, protocol, path):
 if __name__ == "__main__":
     protocols = get_protocols()
     for protocol in protocols:
-        result = check_protocol(protocol['site'], protocol['hostname'], protocol['port'],
-                                protocol['scheme'], protocol['prefix'] + '/gfal_sam/testing')
-        requests.post('http://monit-metrics:10012/', data=json.dumps(result),
-                      headers={"Content-Type": "application/json; charset=UTF-8"})
+        result = check_protocol(protocol['site'], protocol['hostname'],
+                                protocol['port'], protocol['scheme'],
+                                protocol['prefix'] + '/gfal_sam/testing')
+        code = requests.post(
+            'http://monit-metrics:10012/',
+            data=json.dumps(result),
+            headers={"Content-Type": "application/json; charset=UTF-8"})
+        print("HTTP:{}".format(code.status_code))
