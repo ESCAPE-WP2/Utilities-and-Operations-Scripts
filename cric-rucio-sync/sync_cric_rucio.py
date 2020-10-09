@@ -10,6 +10,7 @@
 # Authors:
 # - Hannes Hansen, <hannes.jakob.hansen@cern.ch>, 2019
 # - Aristeidis Fkiaras <aristeidis.fkiaras@cern.ch>, 2019
+# - Rizart Dona <rizart.dona@cern.ch>, 2020
 #
 # Import CRIC data into rucio
 #
