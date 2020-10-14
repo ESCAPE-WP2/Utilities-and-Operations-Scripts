@@ -6,10 +6,10 @@
 2) The Rucio Server should be installed and the DB should be configured before running the script.
 
 ## Example
+```bash
+export IAM_SERVER=https://iam-escape.cloud.cnaf.infn.it
+export IAM_CLIENT_ID=my_client_id
+export IAM_CLIENT_SECRET=my_secret
 
-    export IAM_SERVER=https://iam-escape.cloud.cnaf.infn.it
-    export IAM_CLIENT_ID=my_client_id
-    export IAM_CLIENT_SECRET=my_secret
-
-    python sync_iam_rucio.py
-
+python sync_iam_rucio.py
+```
