@@ -13,7 +13,7 @@ config_map = {
     "testing_folder": "fts-testing",
     "num_of_jobs": 1,
     "num_of_files": [4],
-    "filesizes": [1],
+    "filesizes": [1, 1000],
     "checksum": "none",
     "overwrite": False,
     "metadata": {

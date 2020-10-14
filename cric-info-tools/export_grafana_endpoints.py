@@ -14,8 +14,10 @@ def main():
         description="Export datalake rse endpoints for Grafana dashboards.")
 
     parser.add_argument("-i", required=False, dest="input_file", help="")
+    parser.add_argument("-o", required=True, dest="export_file", help="")
 
     arg = parser.parse_args()
+    export_file = str(arg.export_file)
     input_file = str(arg.input_file)
 
     logging.basicConfig(format='%(asctime)s %(message)s',
@@ -45,8 +47,10 @@ def main():
     endpnt_string = ''
     for endpoint in endpoints:
         endpnt_string += endpoint + ','
-    endpnt_string = endpnt_string[:-1]
-    print(endpnt_string)
+    endpnt_string = endpnt_string[:-1] + "\n"
+
+    with open(export_file, 'w') as fp:
+        fp.write(endpnt_string)
 
 
 if __name__ == '__main__':
