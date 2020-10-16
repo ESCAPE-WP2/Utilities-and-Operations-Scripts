@@ -113,8 +113,12 @@ class IAM_RUCIO_SYNC():
                 if 'certificates' in indigo_user:
                     for certificate in indigo_user['certificates']:
                         if 'subjectDn' in certificate:
-                            grid_certificate = self.make_gridmap_compatible(certificate['subjectDn'])
-                            grid_certificates.append([user['userName'],user['emails'][0]['value'], grid_certificate])
+                            grid_certificate = self.make_gridmap_compatible(
+                                certificate['subjectDn'])
+                            grid_certificates.append([
+                                user['userName'], user['emails'][0]['value'],
+                                grid_certificate
+                            ])
         return grid_certificates
 
     def sync(self):
@@ -125,27 +129,32 @@ class IAM_RUCIO_SYNC():
             email = user[1]
             dn = user[2]
             if not account.account_exists(InternalAccount(username)):
-                account.add_account(InternalAccount(username), AccountType.SERVICE, email)
+                account.add_account(InternalAccount(username),
+                                    AccountType.SERVICE, email)
                 logging.debug('Created account for User ***')
             try:
-                identity.add_account_identity(dn, IdentityType.X509, InternalAccount(username), email)
+                identity.add_account_identity(dn, IdentityType.X509,
+                                              InternalAccount(username), email)
                 logging.debug('Added identity for User ***')
             except:
                 logging.debug('Did not add identify for User ***')
 
             # Give account quota for all RSEs
             for rse_obj in rse.list_rses():
-                set_local_account_limit(InternalAccount(username), rse_obj['id'], 1000000000000)
+                set_local_account_limit(InternalAccount(username),
+                                        rse_obj['id'], 1000000000000)
 
             # Make the user an admin
             try:
-                add_account_attribute(InternalAccount(username), 'admin', 'True')
+                add_account_attribute(InternalAccount(username), 'admin',
+                                      'True')
             except:
                 pass
 
 
 if __name__ == '__main__':
-    logging.info("* Sync to IAM * Initializing IAM-RUCIO synchronization script.")
+    logging.info(
+        "* Sync to IAM * Initializing IAM-RUCIO synchronization script.")
     grid_test = IAM_RUCIO_SYNC(CONFIG_PATH)
     grid_test.generate()
 

@@ -112,7 +112,8 @@ class IAM_Gridmap_Generator():
                 if 'certificates' in indigo_user:
                     for certificate in indigo_user['certificates']:
                         if 'subjectDn' in certificate:
-                            grid_certificate = self.make_gridmap_compatible(certificate['subjectDn'])
+                            grid_certificate = self.make_gridmap_compatible(
+                                certificate['subjectDn'])
                             grid_certificates.append(grid_certificate)
         return grid_certificates
 
@@ -124,7 +125,9 @@ class IAM_Gridmap_Generator():
 
 
 if __name__ == '__main__':
-    logging.info("* Sync to IAM (Gridmap) * Initializing IAM-Gridmap synchronization script.")
+    logging.info(
+        "* Sync to IAM (Gridmap) * Initializing IAM-Gridmap synchronization script."
+    )
     grid_test = IAM_Gridmap_Generator(CONFIG_PATH)
     grid_test.generate()
 
