@@ -67,7 +67,7 @@ class SAM_TEST():
 CRIC_URL = os.getenv(
     "CRIC_URL",
     "http://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma")
-LOCALPATH = os.getenv("LOCALPATH", "./")
+GFAL_LOCALPATH = os.getenv("GFAL_LOCALPATH", "./")
 
 
 def get_protocols():
@@ -90,8 +90,8 @@ def check_protocol(site, hostname, port, protocol, path):
 
     filename = "sam_gfal_test" + str(uuid.uuid4())
     sam = SAM_TEST(hostname, port, protocol, path)
-    sam.generate_file(LOCALPATH + filename)
-    upload_status, error_code = sam.upload(LOCALPATH + filename, filename)
+    sam.generate_file(GFAL_LOCALPATH + filename)
+    upload_status, error_code = sam.upload(GFAL_LOCALPATH + filename, filename)
     upload_json = {
         "site": site,
         "endpoint": hostname,
@@ -109,9 +109,9 @@ def check_protocol(site, hostname, port, protocol, path):
     }
 
     if upload_status == "SUCCESS":
-        sam.delete_local_file(LOCALPATH + filename)
+        sam.delete_local_file(GFAL_LOCALPATH + filename)
         download_status, error_code = sam.download(remote_filename=filename,
-                                                   local_filename=LOCALPATH +
+                                                   local_filename=GFAL_LOCALPATH +
                                                    filename)
     else:
         download_status, error_code = "SKIPPED", "None"
@@ -152,7 +152,7 @@ def check_protocol(site, hostname, port, protocol, path):
         "type": "sam_gfal"
     }
 
-    sam.delete_local_file(LOCALPATH + filename)
+    sam.delete_local_file(GFAL_LOCALPATH + filename)
     return [upload_json, download_json, delete_json]
 
 
