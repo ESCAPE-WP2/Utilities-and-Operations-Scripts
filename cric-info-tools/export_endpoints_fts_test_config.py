@@ -14,7 +14,7 @@ config_map = {
     "num_of_jobs": 1,
     "num_of_files": [4],
     "filesizes": [1, 1000],
-    "checksum": "none",
+    "checksum": "both",
     "overwrite": False,
     "metadata": {
         "activity": "functional-testing"
