@@ -22,8 +22,10 @@ class SAM_TEST():
             port=self.port,
             prefix=self.prefix,
             filename=remote_filename)
-        status, error_code = self._call(
-            ["gfal-copy", "-f", local_filename, target])
+        status, error_code = self._call([
+            "gfal-copy", "--force", "--checksum-mode", "both", local_filename,
+            target
+        ])
         return status, error_code
 
     def download(self, local_filename, remote_filename):
@@ -33,7 +35,8 @@ class SAM_TEST():
             port=self.port,
             prefix=self.prefix,
             filename=remote_filename)
-        status, error_code = self._call(["gfal-copy", target, local_filename])
+        status, error_code = self._call(
+            ["gfal-copy", "--checksum-mode", "both", target, local_filename])
         return status, error_code
 
     def delete(self, remote_filename):
@@ -110,9 +113,8 @@ def check_protocol(site, hostname, port, protocol, path):
 
     if upload_status == "SUCCESS":
         sam.delete_local_file(GFAL_LOCALPATH + filename)
-        download_status, error_code = sam.download(remote_filename=filename,
-                                                   local_filename=GFAL_LOCALPATH +
-                                                   filename)
+        download_status, error_code = sam.download(
+            remote_filename=filename, local_filename=GFAL_LOCALPATH + filename)
     else:
         download_status, error_code = "SKIPPED", "None"
 
