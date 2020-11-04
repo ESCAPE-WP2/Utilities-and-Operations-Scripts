@@ -14,6 +14,7 @@ class SAM_TEST():
         self.port = port
         self.protocol = protocol
         self.prefix = prefix
+        self.timeout = "300"
 
     def upload(self, local_filename, remote_filename):
         target = "{protocol}://{hostname}:{port}{prefix}/{filename}".format(
@@ -23,8 +24,8 @@ class SAM_TEST():
             prefix=self.prefix,
             filename=remote_filename)
         status, error_code = self._call([
-            "gfal-copy", "--force", "--checksum-mode", "both", local_filename,
-            target
+            "gfal-copy", "--force", "--checksum-mode", "both", "--timeout",
+            self.timeout, local_filename, target
         ])
         return status, error_code
 
@@ -35,8 +36,10 @@ class SAM_TEST():
             port=self.port,
             prefix=self.prefix,
             filename=remote_filename)
-        status, error_code = self._call(
-            ["gfal-copy", "--checksum-mode", "both", target, local_filename])
+        status, error_code = self._call([
+            "gfal-copy", "--checksum-mode", "both", "--timeout", self.timeout,
+            target, local_filename
+        ])
         return status, error_code
 
     def delete(self, remote_filename):
@@ -59,12 +62,22 @@ class SAM_TEST():
 
     def _call(self, command_array):
         try:
-            print(command_array)
-            subprocess.check_output(command_array, stderr=subprocess.STDOUT)
-            return "SUCCESS", "None"
+            print("CALL:", command_array)
+            process = subprocess.Popen(command_array,
+                                       stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE)
+            out, err = process.communicate()
+            out = out.decode("utf-8")
+            err = err.decode("utf-8")
+            if err:
+                print("FAILED", err)
+                return "FAILED", err
+            else:
+                print("SUCCESS")
+                return "SUCCESS", "None"
         except Exception as e:
-            print(e.output.decode("utf-8"))
-            return "FAILED", e.output.decode("utf-8")
+            print("FAILED [Exception]", e)
+            return "FAILED", e
 
 
 CRIC_URL = os.getenv(
@@ -168,4 +181,5 @@ if __name__ == "__main__":
             'http://monit-metrics:10012/',
             data=json.dumps(result),
             headers={"Content-Type": "application/json; charset=UTF-8"})
-        print("HTTP:{}".format(code.status_code))
+        print("Pushing to ES [http:{}]".format(code.status_code))
+        print("<<<<<<<<<<<<<<<<<<<<<<<")
