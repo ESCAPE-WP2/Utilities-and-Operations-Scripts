@@ -15,10 +15,16 @@ def main():
 
     parser.add_argument("-o", required=True, dest="export_file", help="")
     parser.add_argument("-i", required=False, dest="input_file", help="")
+    parser.add_argument("--comma",
+                        required=False,
+                        action='store_true',
+                        default=False,
+                        help="")
 
     arg = parser.parse_args()
     export_file = str(arg.export_file)
     input_file = str(arg.input_file)
+    comma = arg.comma
 
     logging.basicConfig(format='%(asctime)s %(message)s',
                         datefmt='%d/%m/%Y %I:%M:%S %p',
@@ -37,7 +43,11 @@ def main():
             # logger.info("Exporting {}".format(rse))
             if rse in disabled_rses:
                 continue
-            fp.write(rse + "\n")
+
+            if comma:
+                fp.write(rse + ",\n")
+            else:
+                fp.write(rse + "\n")
 
 
 if __name__ == '__main__':
