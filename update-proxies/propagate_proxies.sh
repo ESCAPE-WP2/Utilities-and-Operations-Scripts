@@ -17,4 +17,4 @@ done
 kubectl delete secret prod-rucio-x509up
 kubectl create secret generic prod-rucio-x509up --from-file=x509up
 #scp /afs/cern.ch/user/a/afkiaras/proxies/x509up_escape root@escape-jupyter-lab-rucio:/root/x509up
-ssh lxplus6 fts-delegation-init -s https://fts3-pilot.cern.ch:8446 --proxy ${X509_USER_PROXY}
+ssh lxplus fts-delegation-init -s https://fts3-pilot.cern.ch:8446 --proxy ${X509_USER_PROXY}
