@@ -1,10 +1,15 @@
-import subprocess
-import uuid
-import os
-import time
-import requests
-import json
 from datetime import datetime
+import subprocess
+import requests
+import uuid
+import time
+import json
+import os
+
+CRIC_URL = os.getenv(
+    "CRIC_URL",
+    "http://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma")
+GFAL_LOCALPATH = os.getenv("GFAL_LOCALPATH", "./")
 
 
 class SAM_TEST():
@@ -62,7 +67,7 @@ class SAM_TEST():
 
     def _call(self, command_array):
         try:
-            print("CALL:", command_array)
+            print("CALL: {}".format(command_array), flush=True)
             process = subprocess.Popen(command_array,
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE)
@@ -70,20 +75,14 @@ class SAM_TEST():
             out = out.decode("utf-8")
             err = err.decode("utf-8")
             if err:
-                print("FAILED", err)
+                print("FAILED : {}".format(err), flush=True)
                 return "FAILED", err
             else:
-                print("SUCCESS")
+                print("SUCCESS", flush=True)
                 return "SUCCESS", "None"
         except Exception as e:
             print("FAILED [Exception]", e)
             return "FAILED", e
-
-
-CRIC_URL = os.getenv(
-    "CRIC_URL",
-    "http://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma")
-GFAL_LOCALPATH = os.getenv("GFAL_LOCALPATH", "./")
 
 
 def get_protocols():
@@ -104,9 +103,12 @@ def get_protocols():
 
 def check_protocol(site, hostname, port, protocol, path):
 
+    print("{}:{}".format(site, protocol), flush=True)
+
     filename = "sam_gfal_test" + str(uuid.uuid4())
     sam = SAM_TEST(hostname, port, protocol, path)
     sam.generate_file(GFAL_LOCALPATH + filename)
+    print("UPLOAD : ", end='', flush=True)
     upload_status, error_code = sam.upload(GFAL_LOCALPATH + filename, filename)
     upload_json = {
         "site": site,
@@ -126,6 +128,7 @@ def check_protocol(site, hostname, port, protocol, path):
 
     if upload_status == "SUCCESS":
         sam.delete_local_file(GFAL_LOCALPATH + filename)
+        print("DOWNLOAD : ", end='', flush=True)
         download_status, error_code = sam.download(
             remote_filename=filename, local_filename=GFAL_LOCALPATH + filename)
     else:
@@ -147,6 +150,7 @@ def check_protocol(site, hostname, port, protocol, path):
         "type": "sam_gfal"
     }
     if download_status == "SUCCESS":
+        print(" DELETE : ", end='', flush=True)
         delete_status, error_code = sam.delete(filename)
     else:
         delete_status, error_code = "SKIPPED", "None"
@@ -174,6 +178,7 @@ def check_protocol(site, hostname, port, protocol, path):
 if __name__ == "__main__":
     protocols = get_protocols()
     for protocol in protocols:
+        print("<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>", flush=True)
         result = check_protocol(protocol['site'], protocol['hostname'],
                                 protocol['port'], protocol['scheme'],
                                 protocol['prefix'] + '/gfal_sam/testing')
@@ -181,5 +186,4 @@ if __name__ == "__main__":
             'http://monit-metrics:10012/',
             data=json.dumps(result),
             headers={"Content-Type": "application/json; charset=UTF-8"})
-        print("Pushing to ES [http:{}]".format(code.status_code))
-        print("<<<<<<<<<<<<<<<<<<<<<<<")
+        print("Pushing to ES [http:{}]".format(code.status_code), flush=True)
