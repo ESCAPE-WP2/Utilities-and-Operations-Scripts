@@ -81,7 +81,7 @@ class SAM_TEST():
                 print("SUCCESS", flush=True)
                 return "SUCCESS", "None"
         except Exception as e:
-            print("FAILED [Exception]", e)
+            print("FAILED [Exception]", e, flush=True)
             return "FAILED", e
 
 
