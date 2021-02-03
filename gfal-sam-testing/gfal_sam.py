@@ -1,10 +1,12 @@
-from datetime import datetime
 import subprocess
+import colorama
 import requests
 import uuid
 import time
 import json
 import os
+from colorama import Fore, Style
+from datetime import datetime
 
 CRIC_URL = os.getenv(
     "CRIC_URL",
@@ -19,7 +21,7 @@ class SAM_TEST():
         self.port = port
         self.protocol = protocol
         self.prefix = prefix
-        self.timeout = "300"
+        self.timeout = "120"  # 2 minutes
 
     def upload(self, local_filename, remote_filename):
         target = "{protocol}://{hostname}:{port}{prefix}/{filename}".format(
@@ -75,13 +77,13 @@ class SAM_TEST():
             out = out.decode("utf-8")
             err = err.decode("utf-8")
             if err:
-                print("FAILED : {}".format(err), flush=True)
+                print(Fore.RED + "FAILED : {}".format(err), flush=True)
                 return "FAILED", err
             else:
-                print("SUCCESS", flush=True)
+                print(Fore.GREEN + "SUCCESS", flush=True)
                 return "SUCCESS", "None"
         except Exception as e:
-            print("FAILED [Exception]", e, flush=True)
+            print(Fore.RED + "FAILED [Exception]", e, flush=True)
             return "FAILED", e
 
 
@@ -150,7 +152,7 @@ def check_protocol(site, hostname, port, protocol, path):
         "type": "sam_gfal"
     }
     if download_status == "SUCCESS":
-        print(" DELETE : ", end='', flush=True)
+        print("DELETE : ", end='', flush=True)
         delete_status, error_code = sam.delete(filename)
     else:
         delete_status, error_code = "SKIPPED", "None"
@@ -176,6 +178,8 @@ def check_protocol(site, hostname, port, protocol, path):
 
 
 if __name__ == "__main__":
+    colorama.init(autoreset=True)
+    print("Fetching data from CRIC..", flush=True)
     protocols = get_protocols()
     for protocol in protocols:
         print("<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>", flush=True)
