@@ -49,7 +49,7 @@ def format_protocols(protocols, impl):
             "prefix": cric_prot["prefix"],
             "domains": cric_prot["domains"],
             "scheme": cric_prot["scheme"],
-            "port": long(cric_prot["port"]),
+            "port": int(cric_prot["port"]),
             "impl": impl
         }
         new_protocols.append(protocol)
