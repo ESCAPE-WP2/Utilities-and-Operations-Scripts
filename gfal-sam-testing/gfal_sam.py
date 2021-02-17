@@ -1,9 +1,11 @@
 import subprocess
 import colorama
 import requests
+import argparse
 import uuid
 import time
 import json
+import sys
 import os
 from colorama import Fore, Style
 from datetime import datetime
@@ -178,10 +180,25 @@ def check_protocol(site, hostname, port, protocol, path):
 
 
 if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("-i", required=False, dest="input_file", help="")
+    arg = parser.parse_args()
+    input_file = str(arg.input_file)
+
+    disabled_rses = []
+    if input_file != 'None':
+        with open(input_file) as f:
+            content = f.readlines()
+        disabled_rses = [x.strip() for x in content]
+
     colorama.init(autoreset=True)
     print("Fetching data from CRIC..", flush=True)
     protocols = get_protocols()
     for protocol in protocols:
+        if protocol['site'] in disabled_rses:
+            continue
         print("<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>", flush=True)
         result = check_protocol(protocol['site'], protocol['hostname'],
                                 protocol['port'], protocol['scheme'],
