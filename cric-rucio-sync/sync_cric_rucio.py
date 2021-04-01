@@ -61,6 +61,19 @@ def format_rses(rses_d, rses):
     for rse in rses_d:
         rse_name = rse
         cric_data = rses_d[rse]
+
+        attributes_map = {
+            rse_name: "true",
+            "fts": cric_data["fts"],
+            "verify_checksum": rses[rse]['verify_checksum'],
+            "lfn2pfn_algorithm": cric_data["lfn2pfn_algorithm"]
+        }
+
+        # add custom CRIC parameters for RSE
+        custom_params = cric_data['params']
+        for k, v in custom_params.items():
+            attributes_map[k] = v
+
         data = {
             "MaxBeingDeletedFiles":
                 cric_data["MaxBeingDeletedFiles"],
@@ -118,12 +131,8 @@ def format_rses(rses_d, rses):
                 "",
             "verify_checksum":
                 rses[rse]['verify_checksum'],
-            "attributes": {
-                rse_name: "true",
-                "fts": cric_data["fts"],
-                "verify_checksum": rses[rse]['verify_checksum'],
-                "lfn2pfn_algorithm": cric_data["lfn2pfn_algorithm"]
-            },
+            "attributes":
+                attributes_map,
 
             # Protocols
             "protocols":
