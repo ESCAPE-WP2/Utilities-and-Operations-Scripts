@@ -151,5 +151,5 @@ if __name__ == '__main__':
     new_rses = format_rses(rses_d, rses)
     import_rses(new_rses)
 
-    # distances do not neet formatting
+    # distances do not need formatting
     import_distances(distances)
