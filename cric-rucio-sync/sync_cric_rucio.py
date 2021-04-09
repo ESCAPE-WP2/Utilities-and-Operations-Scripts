@@ -10,7 +10,7 @@
 # Authors:
 # - Hannes Hansen, <hannes.jakob.hansen@cern.ch>, 2019
 # - Aristeidis Fkiaras <aristeidis.fkiaras@cern.ch>, 2019
-# - Rizart Dona <rizart.dona@cern.ch>, 2020
+# - Rizart Dona <rizart.dona@cern.ch>, 2020-2021
 #
 # Import CRIC data into rucio
 #
@@ -22,8 +22,6 @@ from rucio.common.types import InternalAccount
 
 CRIC_URL = 'http://escape-cric.cern.ch/api/doma/rse/query/?json'
 CRIC_URL_D = 'http://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma'
-CRIC_URL_ACCOUNTS = 'http://escape-cric.cern.ch/api/accounts/user/query/?json'
-
 
 def format_protocols(protocols, impl):
     new_protocols = []
@@ -142,43 +140,16 @@ def format_rses(rses_d, rses):
     return new_rses
 
 
-def format_identities(identities):
-    new_identities = []
-    for identity in identities:
-        if 'dn' in identity:
-            if len(identity['dn']) > 0:
-                new_id = {
-                    "identity": identity['dn'],
-                    "type": "X509",
-                    "email": identity['email']
-                }
-                new_identities.append(new_id)
-    return new_identities
-
-
-def format_accounts(accounts):
-    new_accounts = []
-    for account in accounts:
-        account_dic = {}
-        account_dic['account'] = InternalAccount(account)
-        account_dic['email'] = accounts[account]['email']
-        account_dic['identities'] = format_identities(
-            accounts[account]['profiles'])
-        new_accounts.append(account_dic)
-    return new_accounts
-
-
 if __name__ == '__main__':
-    data_d = requests.get(CRIC_URL_D).json()
+
+    # fetch the data via the REST API
+    rses_d = requests.get(CRIC_URL_D).json()['rses']
     rses = requests.get(CRIC_URL).json()
-    rses_d = data_d['rses']
+    distances = requests.get(CRIC_URL_D).json()['distances']
+
+    # format rses and make the importable
     new_rses = format_rses(rses_d, rses)
-    # https://github.com/rucio/rucio/blob/master/lib/rucio/core/importer.py#L34
     import_rses(new_rses)
 
-    distances = data_d["distances"]
+    # distances do not neet formatting
     import_distances(distances)
-
-    # cric_accounts = requests.get(CRIC_URL_ACCOUNTS).json()
-    # new_accounts = format_accounts(cric_accounts)
-    # import_accounts(new_accounts)
