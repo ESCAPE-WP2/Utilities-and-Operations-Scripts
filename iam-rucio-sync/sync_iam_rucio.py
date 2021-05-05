@@ -11,9 +11,10 @@ from rucio.core.account_limit import set_local_account_limit
 from rucio.core.account import add_account_attribute
 
 import logging
+
 logging.basicConfig(level=logging.DEBUG)
 
-CONFIG_PATH = "./iam-config.conf"
+CONFIG_PATH = "./iam-sync.conf"
 
 
 class IAM_RUCIO_SYNC():
@@ -28,6 +29,9 @@ class IAM_RUCIO_SYNC():
     def generate(self):
         access_token = self.get_token()
         users = self.get_list_of_users(access_token)
+        # DEBUG output to file
+        # with open("get_list_of_users.json", "w") as outfile:
+        #     json.dump(users, outfile, indent=4)
         self.user_details = self.extract_certificates(users)
 
     def configure(self):
@@ -78,12 +82,12 @@ class IAM_RUCIO_SYNC():
             "scope": "scim:read"
         }
         r = requests.post(self.token_server + self.TOKEN_URL, data=request_data)
-        responce = json.loads(r.text)
+        response = json.loads(r.text)
 
-        if 'access_token' not in responce:
+        if 'access_token' not in response:
             raise BaseException("Authentication Failed")
 
-        return responce['access_token']
+        return response['access_token']
 
     def get_list_of_users(self, access_token):
         """
@@ -117,7 +121,7 @@ class IAM_RUCIO_SYNC():
                                 certificate['subjectDn'])
                             grid_certificates.append([
                                 user['userName'], user['emails'][0]['value'],
-                                grid_certificate
+                                grid_certificate, user['id']
                             ])
         return grid_certificates
 
@@ -128,16 +132,33 @@ class IAM_RUCIO_SYNC():
             username = user[0]
             email = user[1]
             dn = user[2]
+            user_subject = user[3]
             if not account.account_exists(InternalAccount(username)):
                 account.add_account(InternalAccount(username),
                                     AccountType.SERVICE, email)
                 logging.debug('Created account for User ***')
+
             try:
                 identity.add_account_identity(dn, IdentityType.X509,
                                               InternalAccount(username), email)
-                logging.debug('Added identity for User ***')
+                logging.debug(
+                    'Added X509 identity for User {} ***'.format(username))
             except:
-                logging.debug('Did not add identify for User ***')
+                logging.debug(
+                    'Did not add X509 identify for User {} ***'.format(
+                        username))
+
+            try:
+                user_identity = "SUB={}, ISS={}".format(user_subject,
+                                                        self.iam_server)
+                identity.add_account_identity(user_identity, IdentityType.OIDC,
+                                              InternalAccount(username), email)
+                logging.debug(
+                    'Added OIDC identity for User {} ***'.format(username))
+            except:
+                logging.debug(
+                    'Did not add OIDC identify for User {} ***'.format(
+                        username))
 
             # Give account quota for all RSEs
             for rse_obj in rse.list_rses():
@@ -155,8 +176,8 @@ class IAM_RUCIO_SYNC():
 if __name__ == '__main__':
     logging.info(
         "* Sync to IAM * Initializing IAM-RUCIO synchronization script.")
-    grid_test = IAM_RUCIO_SYNC(CONFIG_PATH)
-    grid_test.generate()
+    syncer = IAM_RUCIO_SYNC(CONFIG_PATH)
+    syncer.generate()
 
-    grid_test.sync()
+    syncer.sync()
     logging.info("* Sync to IAM * Successfully completed.")
