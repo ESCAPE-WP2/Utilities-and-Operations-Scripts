@@ -18,5 +18,10 @@ do
 done
 kubectl delete secret ${RELEASENAMEDAEMONS}-rucio-x509up -n rucio
 kubectl create secret generic ${RELEASENAMEDAEMONS}-rucio-x509up --from-file=x509up -n rucio
+
+# x509up for Crons
+kubectl delete secret prod-rucio-x509up -n crons
+kubectl create secret generic prod-rucio-x509up --from-file=x509up -n crons
+
 #scp /afs/cern.ch/user/a/afkiaras/proxies/x509up_escape root@escape-jupyter-lab-rucio:/root/x509up
 ssh lxplus fts-delegation-init -s https://fts3-pilot.cern.ch:8446 --proxy ${X509_USER_PROXY}
