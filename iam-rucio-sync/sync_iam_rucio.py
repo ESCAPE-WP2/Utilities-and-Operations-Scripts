@@ -120,6 +120,7 @@ class IAM_RUCIO_SYNC():
             username = user['userName']
             email = user['emails'][0]['value']
 
+            # Rucio DB schema restriction
             if len(username) > 25:
                 continue
 
@@ -151,6 +152,7 @@ class IAM_RUCIO_SYNC():
             email = user['emails'][0]['value']
             user_subject = user['id']
 
+            # Rucio DB schema restriction
             if len(username) > 25:
                 continue
 
@@ -176,6 +178,10 @@ class IAM_RUCIO_SYNC():
 
             username = user['userName']
             email = user['emails'][0]['value']
+
+            # Rucio DB schema restriction
+            if len(username) > 25:
+                continue
 
             if 'urn:indigo-dc:scim:schemas:IndigoUser' in user:
                 indigo_user = user['urn:indigo-dc:scim:schemas:IndigoUser']
