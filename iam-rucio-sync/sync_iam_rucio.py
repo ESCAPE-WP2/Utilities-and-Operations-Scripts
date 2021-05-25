@@ -26,14 +26,6 @@ class IAM_RUCIO_SYNC():
         self.config_path = config_path
         self.configure()
 
-    def generate(self):
-        access_token = self.get_token()
-        users = self.get_list_of_users(access_token)
-        # DEBUG output to file
-        # with open("get_list_of_users.json", "w") as outfile:
-        #     json.dump(users, outfile, indent=4)
-        self.user_details = self.extract_certificates(users)
-
     def configure(self):
         self.iam_server = None
         self.client_id = None
@@ -93,10 +85,118 @@ class IAM_RUCIO_SYNC():
         """
         Queries the server for all users belonging to the VO.
         """
+
+        startIndex = 1
+        count = 100
         header = {"Authorization": "Bearer %s" % access_token}
-        r = requests.get("%s/scim/Users" % self.iam_server, headers=header)
+
+        iam_users = []
+        users_so_far = 0
+
+        while True:
+            params_d = {"startIndex": startIndex, "count": count}
+            response = requests.get("%s/scim/Users" % self.iam_server,
+                                    headers=header,
+                                    params=params_d)
+            response = json.loads(response.text)
+
+            iam_users += response['Resources']
+            users_so_far += response['itemsPerPage']
+
+            if users_so_far < response['totalResults']:
+                startIndex += count
+            else:
+                break
+
         # TODO: Handle exceptions, error codes
-        return json.loads(r.text)
+        return iam_users
+
+    def sync_accounts(self, iam_users):
+        session = get_session()
+        session.connection()
+
+        for user in iam_users:
+
+            username = user['userName']
+            email = user['emails'][0]['value']
+
+            if len(username) > 25:
+                continue
+
+            if not account.account_exists(InternalAccount(username)):
+                account.add_account(InternalAccount(username),
+                                    AccountType.SERVICE, email)
+                logging.debug(
+                    'Created account for User {} ***'.format(username))
+
+                # Give account quota for all RSEs
+                for rse_obj in rse.list_rses():
+                    set_local_account_limit(InternalAccount(username),
+                                            rse_obj['id'], 1000000000000)
+
+                # Make the user an admin
+                try:
+                    add_account_attribute(InternalAccount(username), 'admin',
+                                          'True')
+                except:
+                    pass
+
+    def sync_oidc(self, iam_users):
+        session = get_session()
+        session.connection()
+
+        for user in iam_users:
+
+            username = user['userName']
+            email = user['emails'][0]['value']
+            user_subject = user['id']
+
+            if len(username) > 25:
+                continue
+
+            try:
+                user_identity = "SUB={}, ISS={}".format(user_subject,
+                                                        self.iam_server)
+                identity.add_account_identity(user_identity, IdentityType.OIDC,
+                                              InternalAccount(username), email)
+                logging.debug(
+                    'Added OIDC identity for User {} ***'.format(username))
+            except:
+                pass
+                # logging.debug(
+                #     'Did not add OIDC identify for User {} ***'.format(
+                #         username))
+
+    def sync_x509(self, iam_users):
+
+        session = get_session()
+        session.connection()
+
+        for user in iam_users:
+
+            username = user['userName']
+            email = user['emails'][0]['value']
+
+            if 'urn:indigo-dc:scim:schemas:IndigoUser' in user:
+                indigo_user = user['urn:indigo-dc:scim:schemas:IndigoUser']
+                if 'certificates' in indigo_user:
+                    for certificate in indigo_user['certificates']:
+                        if 'subjectDn' in certificate:
+                            subjectDn = self.make_gridmap_compatible(
+                                certificate['subjectDn'])
+
+                            try:
+                                identity.add_account_identity(
+                                    subjectDn, IdentityType.X509,
+                                    InternalAccount(username), email)
+                                logging.debug(
+                                    'Added X509 identity for User {} ***'.
+                                    format(username))
+                            except:
+                                pass
+                                # logging.debug(
+                                #     'Did not add X509 identify for User {} ***'.
+                                #     format(username))
 
     def make_gridmap_compatible(self, certificate):
         """
@@ -109,75 +209,31 @@ class IAM_RUCIO_SYNC():
         certificate = '/' + certificate
         return certificate
 
-    def extract_certificates(self, users):
-        grid_certificates = []
-        for user in users['Resources']:
-            if 'urn:indigo-dc:scim:schemas:IndigoUser' in user:
-                indigo_user = user['urn:indigo-dc:scim:schemas:IndigoUser']
-                if 'certificates' in indigo_user:
-                    for certificate in indigo_user['certificates']:
-                        if 'subjectDn' in certificate:
-                            grid_certificate = self.make_gridmap_compatible(
-                                certificate['subjectDn'])
-                            grid_certificates.append([
-                                user['userName'], user['emails'][0]['value'],
-                                grid_certificate, user['id']
-                            ])
-        return grid_certificates
-
-    def sync(self):
-        session = get_session()
-        session.connection()
-        for user in self.user_details:
-            username = user[0]
-            email = user[1]
-            dn = user[2]
-            user_subject = user[3]
-            if not account.account_exists(InternalAccount(username)):
-                account.add_account(InternalAccount(username),
-                                    AccountType.SERVICE, email)
-                logging.debug('Created account for User ***')
-
-            try:
-                identity.add_account_identity(dn, IdentityType.X509,
-                                              InternalAccount(username), email)
-                logging.debug(
-                    'Added X509 identity for User {} ***'.format(username))
-            except:
-                logging.debug(
-                    'Did not add X509 identify for User {} ***'.format(
-                        username))
-
-            try:
-                user_identity = "SUB={}, ISS={}".format(user_subject,
-                                                        self.iam_server)
-                identity.add_account_identity(user_identity, IdentityType.OIDC,
-                                              InternalAccount(username), email)
-                logging.debug(
-                    'Added OIDC identity for User {} ***'.format(username))
-            except:
-                logging.debug(
-                    'Did not add OIDC identify for User {} ***'.format(
-                        username))
-
-            # Give account quota for all RSEs
-            for rse_obj in rse.list_rses():
-                set_local_account_limit(InternalAccount(username),
-                                        rse_obj['id'], 1000000000000)
-
-            # Make the user an admin
-            try:
-                add_account_attribute(InternalAccount(username), 'admin',
-                                      'True')
-            except:
-                pass
-
 
 if __name__ == '__main__':
     logging.info(
         "* Sync to IAM * Initializing IAM-RUCIO synchronization script.")
-    syncer = IAM_RUCIO_SYNC(CONFIG_PATH)
-    syncer.generate()
 
-    syncer.sync()
+    # configure IAM syncer
+    syncer = IAM_RUCIO_SYNC(CONFIG_PATH)
+
+    # get SCIM access token
+    access_token = syncer.get_token()
+
+    # get all users from IAM
+    iam_users = syncer.get_list_of_users(access_token)
+
+    # DEBUG user output to file
+    # with open("get_list_of_users.json", "w") as outfile:
+    #     json.dump(iam_users, outfile, indent=4)
+
+    # sync accounts
+    syncer.sync_accounts(iam_users)
+
+    # sync OIDC identities
+    syncer.sync_oidc(iam_users)
+
+    # sync X509 identities
+    syncer.sync_x509(iam_users)
+
     logging.info("* Sync to IAM * Successfully completed.")
