@@ -1,5 +1,7 @@
 import os
 import requests
+import warnings
+import logging
 import json
 from configparser import ConfigParser
 from rucio.common.types import InternalAccount
@@ -9,8 +11,7 @@ from rucio.db.sqla.session import get_session
 from rucio.db.sqla.constants import AccountType
 from rucio.core.account_limit import set_local_account_limit
 from rucio.core.account import add_account_attribute
-
-import logging
+from sqlalchemy import exc as sa_exc
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -77,7 +78,7 @@ class IAM_RUCIO_SYNC():
         response = json.loads(r.text)
 
         if 'access_token' not in response:
-            raise BaseException("Authentication Failed")
+            raise RuntimeError("Authentication Failed")
 
         return response['access_token']
 
@@ -135,12 +136,14 @@ class IAM_RUCIO_SYNC():
                     set_local_account_limit(InternalAccount(username),
                                             rse_obj['id'], 1000000000000)
 
-                # Make the user an admin
+                # Make the user an admin & able to sign URLs
                 try:
                     add_account_attribute(InternalAccount(username), 'admin',
                                           'True')
-                except:
-                    pass
+                    add_account_attribute(InternalAccount(username), 'sign-gcs',
+                                          'True')
+                except Exception as e:
+                    logging.debug(e)
 
     def sync_oidc(self, iam_users):
         session = get_session()
@@ -157,17 +160,19 @@ class IAM_RUCIO_SYNC():
                 continue
 
             try:
+                internal_account = InternalAccount(username)
                 user_identity = "SUB={}, ISS={}".format(user_subject,
                                                         self.iam_server)
-                identity.add_account_identity(user_identity, IdentityType.OIDC,
-                                              InternalAccount(username), email)
-                logging.debug(
-                    'Added OIDC identity for User {} ***'.format(username))
-            except:
-                pass
-                # logging.debug(
-                #     'Did not add OIDC identify for User {} ***'.format(
-                #         username))
+
+                if not identity.exist_identity_account(
+                        user_identity, IdentityType.OIDC, internal_account):
+                    identity.add_account_identity(user_identity,
+                                                  IdentityType.OIDC,
+                                                  internal_account, email)
+                    logging.debug(
+                        'Added OIDC identity for User {}'.format(username))
+            except Exception as e:
+                logging.debug(e)
 
     def sync_x509(self, iam_users):
 
@@ -192,17 +197,20 @@ class IAM_RUCIO_SYNC():
                                 certificate['subjectDn'])
 
                             try:
-                                identity.add_account_identity(
-                                    subjectDn, IdentityType.X509,
-                                    InternalAccount(username), email)
-                                logging.debug(
-                                    'Added X509 identity for User {} ***'.
-                                    format(username))
-                            except:
-                                pass
-                                # logging.debug(
-                                #     'Did not add X509 identify for User {} ***'.
-                                #     format(username))
+                                internal_account = InternalAccount(username)
+
+                                if not identity.exist_identity_account(
+                                        subjectDn, IdentityType.X509,
+                                        internal_account):
+                                    identity.add_account_identity(
+                                        subjectDn, IdentityType.X509,
+                                        internal_account, email)
+                                    logging.debug(
+                                        'Added X509 identity for User {}'.
+                                        format(username))
+
+                            except Exception as e:
+                                logging.debug(e)
 
     def make_gridmap_compatible(self, certificate):
         """
@@ -217,29 +225,32 @@ class IAM_RUCIO_SYNC():
 
 
 if __name__ == '__main__':
-    logging.info(
-        "* Sync to IAM * Initializing IAM-RUCIO synchronization script.")
 
-    # configure IAM syncer
-    syncer = IAM_RUCIO_SYNC(CONFIG_PATH)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", category=sa_exc.SAWarning)
 
-    # get SCIM access token
-    access_token = syncer.get_token()
+        logging.info("Starting IAM -> RUCIO synchronization.")
 
-    # get all users from IAM
-    iam_users = syncer.get_list_of_users(access_token)
+        # configure IAM syncer
+        syncer = IAM_RUCIO_SYNC(CONFIG_PATH)
 
-    # DEBUG user output to file
-    # with open("get_list_of_users.json", "w") as outfile:
-    #     json.dump(iam_users, outfile, indent=4)
+        # get SCIM access token
+        access_token = syncer.get_token()
 
-    # sync accounts
-    syncer.sync_accounts(iam_users)
+        # get all users from IAM
+        iam_users = syncer.get_list_of_users(access_token)
 
-    # sync OIDC identities
-    syncer.sync_oidc(iam_users)
+        # DEBUG user output to file
+        # with open("get_list_of_users.json", "w") as outfile:
+        #     json.dump(iam_users, outfile, indent=4)
 
-    # sync X509 identities
-    syncer.sync_x509(iam_users)
+        # sync accounts
+        syncer.sync_accounts(iam_users)
 
-    logging.info("* Sync to IAM * Successfully completed.")
+        # sync OIDC identities
+        syncer.sync_oidc(iam_users)
+
+        # sync X509 identities
+        syncer.sync_x509(iam_users)
+
+        logging.info("IAM -> RUCIO synchronization successfully completed.")
