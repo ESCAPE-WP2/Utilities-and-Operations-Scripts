@@ -17,8 +17,7 @@
 # PY3K COMPATIBLE
 
 import requests
-from rucio.core.importer import import_rses, import_distances, import_accounts
-from rucio.common.types import InternalAccount
+from rucio.core.importer import import_rses, import_distances
 
 CRIC_URL = 'http://escape-cric.cern.ch/api/doma/rse/query/?json'
 CRIC_URL_D = 'http://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma'
