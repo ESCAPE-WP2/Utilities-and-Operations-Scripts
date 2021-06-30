@@ -88,10 +88,31 @@ class IAM_Gridmap_Generator():
         """
         Queries the server for all users belonging to the VO.
         """
+
+        startIndex = 1
+        count = 100
         header = {"Authorization": "Bearer %s" % access_token}
-        r = requests.get("%s/scim/Users" % self.iam_server, headers=header)
+
+        iam_users = []
+        users_so_far = 0
+
+        while True:
+            params_d = {"startIndex": startIndex, "count": count}
+            response = requests.get("%s/scim/Users" % self.iam_server,
+                                    headers=header,
+                                    params=params_d)
+            response = json.loads(response.text)
+
+            iam_users += response['Resources']
+            users_so_far += response['itemsPerPage']
+
+            if users_so_far < response['totalResults']:
+                startIndex += count
+            else:
+                break
+
         # TODO: Handle exceptions, error codes
-        return json.loads(r.text)
+        return iam_users
 
     def make_gridmap_compatible(self, certificate):
         """
@@ -106,7 +127,7 @@ class IAM_Gridmap_Generator():
 
     def extract_certificates(self, users):
         grid_certificates = []
-        for user in users['Resources']:
+        for user in users:
             if 'urn:indigo-dc:scim:schemas:IndigoUser' in user:
                 indigo_user = user['urn:indigo-dc:scim:schemas:IndigoUser']
                 if 'certificates' in indigo_user:
