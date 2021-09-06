@@ -19,8 +19,9 @@
 import requests
 from rucio.core.importer import import_rses, import_distances
 
-CRIC_URL = 'http://escape-cric.cern.ch/api/doma/rse/query/?json'
-CRIC_URL_D = 'http://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma'
+CRIC_URL = 'https://escape-cric.cern.ch/api/doma/rse/query/?json'
+CRIC_URL_D = 'https://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma'
+
 
 def format_protocols(protocols, impl):
     new_protocols = []
@@ -142,9 +143,12 @@ def format_rses(rses_d, rses):
 if __name__ == '__main__':
 
     # fetch the data via the REST API
-    rses_d = requests.get(CRIC_URL_D).json()['rses']
-    rses = requests.get(CRIC_URL).json()
-    distances = requests.get(CRIC_URL_D).json()['distances']
+    cric_verification_cert = "/etc/grid-security/certificates/CERN-Root-2.pem"
+    rses_d = requests.get(CRIC_URL_D,
+                          verify=cric_verification_cert).json()['rses']
+    rses = requests.get(CRIC_URL, verify=cric_verification_cert).json()
+    distances = requests.get(CRIC_URL_D,
+                             verify=cric_verification_cert).json()['distances']
 
     # format rses and make the importable
     new_rses = format_rses(rses_d, rses)
