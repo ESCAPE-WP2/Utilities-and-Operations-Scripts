@@ -47,15 +47,16 @@ class XCache_Authfile_Generator():
 
         prefixes = set()
         for rse in list_rses():
-            rse_name = rse['rse']
-            protocols = get_rse_protocols(rse_name)
-            for protocol in protocols:
-                scheme = protocol['scheme']
-                hostname = protocol['hostname']
-                port = protocol['port']
-                prefix = protocol['prefix']
-                authfile_prefix = f"/{scheme}:/{hostname}:{port}{prefix}"
-                prefixes.add(authfile_prefix)
+            rse_id = rse['id']
+            protocols = get_rse_protocols(rse_id)
+            if 'protocols' in protocols:
+                for protocol in protocols['protocols']:
+                    scheme = protocol['scheme']
+                    hostname = protocol['hostname']
+                    port = protocol['port']
+                    prefix = protocol['prefix']
+                    authfile_prefix = f"/{scheme}:/{hostname}:{port}{prefix}"
+                    prefixes.add(authfile_prefix)
         return list(prefixes)
 
     def get_template_authfile_from_prefixes(self, prefixes):
