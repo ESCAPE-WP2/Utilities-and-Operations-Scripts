@@ -54,8 +54,8 @@ class XCache_Authfile_Generator():
                     scheme = protocol['scheme']
                     hostname = protocol['hostname']
                     port = protocol['port']
-                    prefix = protocol['prefix']
-                    authfile_prefix = f"/{scheme}:/{hostname}:{port}{prefix}"
+                    prefix = self.clean_prefix_path(protocol['prefix'])
+                    authfile_prefix = f"/{scheme}:/{hostname}:{port}/{prefix}"
                     prefixes.add(authfile_prefix)
         return list(prefixes)
 
@@ -74,6 +74,11 @@ class XCache_Authfile_Generator():
                 out += " \\"
             out += "\n"
         return out
+
+    def clean_prefix_path(self, prefix):
+        chunks = prefix.strip('/').split('/')
+        filtered_chunks = list(filter(None, chunks))
+        return '/'.join(filtered_chunks)
 
 
 if __name__ == '__main__':
