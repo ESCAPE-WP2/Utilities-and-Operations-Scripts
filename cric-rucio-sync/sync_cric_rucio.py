@@ -72,6 +72,10 @@ def format_rses(rses_d, rses):
         for k, v in custom_params.items():
             attributes_map[k] = v
 
+        # set default rse_type to DISK if not provided
+        if not cric_data["rse_type"]:
+            cric_data["rse_type"] = "DISK"
+
         data = {
             "MaxBeingDeletedFiles":
                 cric_data["MaxBeingDeletedFiles"],
