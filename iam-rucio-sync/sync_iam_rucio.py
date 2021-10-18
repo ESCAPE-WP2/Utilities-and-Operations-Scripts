@@ -145,6 +145,13 @@ class IAM_RUCIO_SYNC():
                 except Exception as e:
                     logging.debug(e)
 
+            for group in user['groups']:
+                group_name = group['display']
+                if not account.has_account_attribute(InternalAccount(username),
+                                                     group_name):
+                    add_account_attribute(InternalAccount(username), group_name,
+                                          'True')
+
     def sync_oidc(self, iam_users):
         session = get_session()
         session.connection()
@@ -241,8 +248,8 @@ if __name__ == '__main__':
         iam_users = syncer.get_list_of_users(access_token)
 
         # DEBUG user output to file
-        # with open("get_list_of_users.json", "w") as outfile:
-        #     json.dump(iam_users, outfile, indent=4)
+        with open("get_list_of_users.json", "w") as outfile:
+            json.dump(iam_users, outfile, indent=4)
 
         # sync accounts
         syncer.sync_accounts(iam_users)
