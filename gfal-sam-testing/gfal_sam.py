@@ -5,9 +5,8 @@ import argparse
 import uuid
 import time
 import json
-import sys
 import os
-from colorama import Fore, Style
+from colorama import Fore
 from datetime import datetime
 
 CRIC_URL = os.getenv(
@@ -105,7 +104,7 @@ def get_protocols():
     return protocols
 
 
-def check_protocol(site, hostname, port, protocol, path):
+def check_protocol(site, hostname, port, protocol, path, auth):
 
     print("{}:{}".format(site, protocol), flush=True)
 
@@ -123,6 +122,7 @@ def check_protocol(site, hostname, port, protocol, path):
         "operation": 'UPLOAD',
         "status": upload_status,
         "error_code": error_code,
+        "auth_method": auth,
         "str_datetime": str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")),
         "timestamp": int(time.time()),
         "vo": "ESCAPE",
@@ -147,6 +147,7 @@ def check_protocol(site, hostname, port, protocol, path):
         "operation": 'DOWNLOAD',
         "status": download_status,
         "error_code": error_code,
+        "auth_method": auth,
         "str_datetime": str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")),
         "timestamp": int(time.time()),
         "vo": "ESCAPE",
@@ -168,6 +169,7 @@ def check_protocol(site, hostname, port, protocol, path):
         "operation": 'DELETE',
         "status": delete_status,
         "error_code": error_code,
+        "auth_method": auth,
         "str_datetime": str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")),
         "timestamp": int(time.time()),
         "vo": "ESCAPE",
@@ -183,9 +185,19 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-i", required=False, dest="input_file", help="")
+    parser.add_argument("-i",
+                        required=False,
+                        dest="input_file",
+                        help="List of RSEs that are not to be tested")
+    parser.add_argument("-auth",
+                        required=False,
+                        dest="auth_type",
+                        default="x509",
+                        help="Auth type to use [x509(default)|oidc]")
+
     arg = parser.parse_args()
     input_file = str(arg.input_file)
+    auth_type = str(arg.auth_type)
 
     disabled_rses = []
     if input_file != 'None':
@@ -199,10 +211,13 @@ if __name__ == "__main__":
     for protocol in protocols:
         if protocol['site'] in disabled_rses:
             continue
+        if protocol['scheme'] != "davs" and auth_type == 'oidc':
+            continue
         print("<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>", flush=True)
         result = check_protocol(protocol['site'], protocol['hostname'],
                                 protocol['port'], protocol['scheme'],
-                                protocol['prefix'] + '/gfal_sam/testing')
+                                protocol['prefix'] + '/gfal_sam/testing',
+                                auth_type)
         code = requests.post(
             'http://monit-metrics:10012/',
             data=json.dumps(result),
