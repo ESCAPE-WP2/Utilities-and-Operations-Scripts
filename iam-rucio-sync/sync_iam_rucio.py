@@ -248,8 +248,8 @@ if __name__ == '__main__':
         iam_users = syncer.get_list_of_users(access_token)
 
         # DEBUG user output to file
-        with open("get_list_of_users.json", "w") as outfile:
-            json.dump(iam_users, outfile, indent=4)
+        # with open("get_list_of_users.json", "w") as outfile:
+        #     json.dump(iam_users, outfile, indent=4)
 
         # sync accounts
         syncer.sync_accounts(iam_users)
