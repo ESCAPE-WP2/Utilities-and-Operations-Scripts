@@ -121,8 +121,17 @@ class IAM_RUCIO_SYNC():
             username = user['userName']
             email = user['emails'][0]['value']
 
+            if not user['active']:
+                logging.debug(
+                    'Skipped account creation for User {} [not active]'.format(
+                        username))
+                continue
+
             # Rucio DB schema restriction
             if len(username) > 25:
+                logging.debug(
+                    'Skipped account creation for User {} [len(username) > 25]'.
+                    format(username))
                 continue
 
             if not account.account_exists(InternalAccount(username)):
@@ -148,10 +157,10 @@ class IAM_RUCIO_SYNC():
             if "groups" in user:
                 for group in user['groups']:
                     group_name = group['display']
-                    if not account.has_account_attribute(InternalAccount(username),
-                                                        group_name):
-                        add_account_attribute(InternalAccount(username), group_name,
-                                            'True')
+                    if not account.has_account_attribute(
+                            InternalAccount(username), group_name):
+                        add_account_attribute(InternalAccount(username),
+                                              group_name, 'True')
 
     def sync_oidc(self, iam_users):
         session = get_session()
@@ -163,8 +172,17 @@ class IAM_RUCIO_SYNC():
             email = user['emails'][0]['value']
             user_subject = user['id']
 
+            if not user['active']:
+                logging.debug(
+                    'Skipped OIDC identity for User {} [not active]'.format(
+                        username))
+                continue
+
             # Rucio DB schema restriction
             if len(username) > 25:
+                logging.debug(
+                    'Skipped OIDC identity for User {} [len(username) > 25]'.
+                    format(username))
                 continue
 
             try:
@@ -192,8 +210,17 @@ class IAM_RUCIO_SYNC():
             username = user['userName']
             email = user['emails'][0]['value']
 
+            if not user['active']:
+                logging.debug(
+                    'Skipped X509 identity for User {} [not active]'.format(
+                        username))
+                continue
+
             # Rucio DB schema restriction
             if len(username) > 25:
+                logging.debug(
+                    'Skipped X509 identity for User {} [len(username) > 25]'.
+                    format(username))
                 continue
 
             if 'urn:indigo-dc:scim:schemas:IndigoUser' in user:
