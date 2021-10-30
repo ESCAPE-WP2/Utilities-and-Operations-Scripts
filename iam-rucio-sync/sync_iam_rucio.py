@@ -145,12 +145,13 @@ class IAM_RUCIO_SYNC():
                 except Exception as e:
                     logging.debug(e)
 
-            for group in user['groups']:
-                group_name = group['display']
-                if not account.has_account_attribute(InternalAccount(username),
-                                                     group_name):
-                    add_account_attribute(InternalAccount(username), group_name,
-                                          'True')
+            if "groups" in user:
+                for group in user['groups']:
+                    group_name = group['display']
+                    if not account.has_account_attribute(InternalAccount(username),
+                                                        group_name):
+                        add_account_attribute(InternalAccount(username), group_name,
+                                            'True')
 
     def sync_oidc(self, iam_users):
         session = get_session()
