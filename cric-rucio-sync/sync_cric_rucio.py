@@ -18,6 +18,7 @@
 
 import requests
 from rucio.core.importer import import_rses, import_distances
+from rucio.core import rse as rse_module
 
 CRIC_URL = 'https://escape-cric.cern.ch/api/doma/rse/query/?json'
 CRIC_URL_D = 'https://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma'
@@ -56,12 +57,14 @@ def format_protocols(protocols, impl):
 
 def format_rses(rses_d, rses):
     new_rses = {}
+
     for rse in rses_d:
         rse_name = rse
         cric_data = rses_d[rse]
 
         attributes_map = {
             rse_name: "true",
+            "source_for_used_space": "rucio",
             "fts": cric_data["fts"],
             "verify_checksum": rses[rse]['verify_checksum'],
             "lfn2pfn_algorithm": cric_data["lfn2pfn_algorithm"]
@@ -75,6 +78,17 @@ def format_rses(rses_d, rses):
         # set default rse_type to DISK if not provided
         if not cric_data["rse_type"]:
             cric_data["rse_type"] = "DISK"
+
+        rse_id = rse_module.get_rse_id(rse=rse_name)
+        total_space = cric_data["space"]
+
+        if total_space > 0:
+            rse_module.set_rse_usage(rse_id,
+                                     "storage",
+                                     -1,
+                                     total_space,
+                                     files=None)
+            rse_module.set_rse_usage(rse_id, "obsolete", 0, None, files=None)
 
         data = {
             "MaxBeingDeletedFiles":
@@ -115,12 +129,6 @@ def format_rses(rses_d, rses):
                 cric_data["updated_at"],
             "volatile":
                 cric_data["volatile"],
-
-            # Data visible on CRIC but not on Rucio
-            # "id": 8, Might need to do get_rse_id("Name") or assign new one
-            # "site": cric_data["site"],
-            # "space_usage_method": "",
-            # "state": "ACTIVE",
 
             # Missing from CRIC
             "city":
