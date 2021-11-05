@@ -7,7 +7,6 @@ from configparser import ConfigParser
 from rucio.common.types import InternalAccount
 from rucio.core import identity, account, rse
 from rucio.db.sqla.constants import IdentityType
-from rucio.db.sqla.session import get_session
 from rucio.db.sqla.constants import AccountType
 from rucio.core.account_limit import set_local_account_limit
 from rucio.core.account import add_account_attribute
@@ -113,8 +112,6 @@ class IAM_RUCIO_SYNC():
         return iam_users
 
     def sync_accounts(self, iam_users):
-        session = get_session()
-        session.connection()
 
         for user in iam_users:
 
@@ -163,8 +160,6 @@ class IAM_RUCIO_SYNC():
                                               group_name, 'True')
 
     def sync_oidc(self, iam_users):
-        session = get_session()
-        session.connection()
 
         for user in iam_users:
 
@@ -201,9 +196,6 @@ class IAM_RUCIO_SYNC():
                 logging.debug(e)
 
     def sync_x509(self, iam_users):
-
-        session = get_session()
-        session.connection()
 
         for user in iam_users:
 
