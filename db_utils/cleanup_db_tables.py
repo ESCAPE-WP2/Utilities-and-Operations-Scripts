@@ -86,25 +86,24 @@ def main():
     try:
         now_dt = datetime.datetime.now()
         delta_dt = now_dt - datetime.timedelta(days=DAYS_TO_KEEP)
-        logging.info(
-            'This script will delete DB rows last updated %s days and before',
-            DAYS_TO_KEEP)
+        logging.info('Deletion START')
         for table, table_model in table_map.items():
 
             if truncate_table[table]:
                 session.execute("TRUNCATE TABLE {} DROP STORAGE".format(table))
                 logging.info("Truncating table:%s", table)
-                continue
-
-            # clean up last 30 days for the rest of the tables
-            logging.info("Deleting rows from table:%s", table)
-            query = session.query(table_model).with_for_update(skip_locked=True)
-            rows = query.where(table_model.updated_at <= delta_dt)
-            rows.delete(synchronize_session=False)
+            else:
+                logging.info(
+                    "Deleting rows last updated %s days ago and before from table:%s",
+                    DAYS_TO_KEEP, table)
+                query = session.query(table_model).with_for_update(
+                    skip_locked=True)
+                rows = query.where(table_model.updated_at <= delta_dt)
+                rows.delete(synchronize_session=False)
 
         logging.info("Commiting changes to the DB")
         session.commit()
-
+        logging.info('Deletion DONE')
     except TimeoutError as error:
         session.rollback()
         raise Exception(str(error))
