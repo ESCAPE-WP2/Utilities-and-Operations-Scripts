@@ -4,6 +4,7 @@ import json
 from configparser import ConfigParser
 
 import logging
+
 logging.basicConfig(level=logging.DEBUG)
 
 CONFIG_PATH = "./iam-oidcmap.conf"
@@ -76,9 +77,8 @@ class IAM_OIDC_Map_Generator():
             "password": "not_needed",
             "scope": "scim:read"
         }
-        r = requests.post(self.token_server +
-                          self.TOKEN_URL, data=request_data)
-        
+        r = requests.post(self.token_server + self.TOKEN_URL, data=request_data)
+
         responce = json.loads(r.text)
 
         if 'access_token' not in responce:

@@ -1,0 +1,6 @@
+iam-rucio-sync/client_secret.secret
+iam-rucio-sync/list_of_users.json
+iam-gridmap-sync/client_secret.secret
+iam-gridmap-sync/sample.gridmap.txt
+iam-oidcmap-sync/client_secret.secret
+iam-oidcmap-sync/sample.oidcmap.txt

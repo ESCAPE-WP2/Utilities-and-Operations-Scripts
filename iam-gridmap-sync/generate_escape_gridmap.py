@@ -4,6 +4,7 @@ import json
 from configparser import ConfigParser
 
 import logging
+
 logging.basicConfig(level=logging.DEBUG)
 
 CONFIG_PATH = "./iam-gridmap.conf"
