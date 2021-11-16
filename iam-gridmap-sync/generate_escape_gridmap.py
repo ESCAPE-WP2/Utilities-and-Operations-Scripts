@@ -129,6 +129,12 @@ class IAM_Gridmap_Generator():
     def extract_certificates(self, users):
         grid_certificates = []
         for user in users:
+            if not user['active']:
+                logging.debug(
+                    'Skipped OIDC identity for User {} [not active]'.format(
+                        user["userName"]))
+                continue
+
             if 'urn:indigo-dc:scim:schemas:IndigoUser' in user:
                 indigo_user = user['urn:indigo-dc:scim:schemas:IndigoUser']
                 if 'certificates' in indigo_user:

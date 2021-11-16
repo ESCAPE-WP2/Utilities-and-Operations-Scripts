@@ -119,6 +119,12 @@ class IAM_OIDC_Map_Generator():
     def extract_user_ids(self, users):
         user_ids = []
         for user in users:
+            if not user['active']:
+                logging.debug(
+                    'Skipped OIDC identity for User {} [not active]'.format(
+                        user["userName"]))
+                continue
+
             user_ids.append(user['id'])
         return user_ids
 
