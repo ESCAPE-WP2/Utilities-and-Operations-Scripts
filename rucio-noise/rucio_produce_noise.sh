@@ -4,7 +4,7 @@ cd /scripts/Utilities-and-Operations-Scripts/
 git pull
 cd rucio-noise
 
-python3 cric-info-tools/list_rses_from_cric.py -o list_rses_from_cric.txt -i Utilities-and-Operations-Scripts/cric-info-tools/disabled_rses.txt
+python3 /scripts/Utilities-and-Operations-Scripts/cric-info-tools/list_rses_from_cric.py -o list_rses_from_cric.txt -i Utilities-and-Operations-Scripts/cric-info-tools/disabled_rses.txt
 
 rses=()
 while read line
