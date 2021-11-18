@@ -1,10 +1,6 @@
 #!/bin/bash
 
-CODE_PATH=/scripts/Utilities-and-Operations-Scripts
-
-cd $CODE_PATH/rucio-noise
-
-python3 $CODE_PATH/cric-info-tools/list_rses_from_cric.py -o list_rses_from_cric.txt -i $CODE_PATH/cric-info-tools/disabled_rses.txt
+python3 ../cric-info-tools/list_rses_from_cric.py -o list_rses_from_cric.txt -i ../cric-info-tools/disabled_rses.txt
 
 rses=()
 while read line
