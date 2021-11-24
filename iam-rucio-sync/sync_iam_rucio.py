@@ -3,6 +3,7 @@ import requests
 import warnings
 import logging
 import json
+import argparse
 from configparser import ConfigParser
 from rucio.common.types import InternalAccount
 from rucio.core import identity, account, rse
@@ -253,6 +254,18 @@ class IAM_RUCIO_SYNC():
 
 if __name__ == '__main__':
 
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("--debug",
+                        required=False,
+                        dest="debug",
+                        action='store_true',
+                        help="Toggle debug mode and export file with user list.")
+    parser.set_defaults(debug=False)
+
+    arg = parser.parse_args()
+    debug = arg.debug
+
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", category=sa_exc.SAWarning)
 
@@ -267,9 +280,10 @@ if __name__ == '__main__':
         # get all users from IAM
         iam_users = syncer.get_list_of_users(access_token)
 
-        # # DEBUG user output to file
-        # with open("list_of_users.json", "w") as outfile:
-        #     json.dump(iam_users, outfile, indent=4)
+        # DEBUG user output to file
+        if debug:
+            with open("list_of_users.json", "w") as outfile:
+                json.dump(iam_users, outfile, indent=4)
 
         # sync accounts
         syncer.sync_accounts(iam_users)
