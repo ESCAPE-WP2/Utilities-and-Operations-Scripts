@@ -19,6 +19,7 @@
 import requests
 from rucio.core.importer import import_rses, import_distances
 from rucio.core import rse as rse_module
+from rucio.common.exception import RSENotFound
 
 CRIC_URL = 'https://escape-cric.cern.ch/api/doma/rse/query/?json'
 CRIC_URL_D = 'https://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma'
@@ -79,16 +80,25 @@ def format_rses(rses_d, rses):
         if not cric_data["rse_type"]:
             cric_data["rse_type"] = "DISK"
 
-        rse_id = rse_module.get_rse_id(rse=rse_name)
-        total_space = cric_data["space"]
+        try:
+            rse_id = rse_module.get_rse_id(rse=rse_name)
+            total_space = cric_data["space"]
 
-        if total_space > 0:
-            rse_module.set_rse_usage(rse_id,
-                                     "storage",
-                                     -1,
-                                     total_space,
-                                     files=None)
-            rse_module.set_rse_usage(rse_id, "obsolete", 0, None, files=None)
+            if total_space > 0:
+                rse_module.set_rse_usage(rse_id,
+                                         "storage",
+                                         -1,
+                                         total_space,
+                                         files=None)
+                rse_module.set_rse_usage(rse_id,
+                                         "obsolete",
+                                         0,
+                                         None,
+                                         files=None)
+        except RSENotFound:
+            # this means that the rse usage metrics will be updated in the next
+            # run for this RSE
+            pass
 
         data = {
             "MaxBeingDeletedFiles":
