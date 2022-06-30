@@ -33,15 +33,10 @@ def format_protocols(protocols, impl):
             ext_attrs = None
         else:
             ext_attrs = cric_prot["ext_attrs"]
-
-        if cric_prot['domains'].get("third_party_copy", None):
-            if cric_prot['domains']['third_party_copy'].get("read", None):
-                if cric_prot['domains']['third_party_copy'].get("write", None):
-                    cric_prot['domains']['wan']['third_party_copy'] = cric_prot[
-                        'domains']['third_party_copy']['write']
-                else:
-                    cric_prot['domains']['wan']['third_party_copy'] = 0
-            cric_prot['domains'].pop('third_party_copy', None)
+        
+        cric_prot['domains']['wan']['third_party_copy_read'] = cric_prot['domains']['third_party_copy'].get("read", 0)
+        cric_prot['domains']['wan']['third_party_copy_write'] = cric_prot['domains']['third_party_copy'].get("write", 0)
+        cric_prot['domains'].pop('third_party_copy', None)
 
         protocol = {
             "extended_attributes": ext_attrs,
