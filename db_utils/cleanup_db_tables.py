@@ -94,8 +94,8 @@ def main():
                 logging.info("Truncating table:%s", table)
             else:
                 logging.info(
-                    "Deleting rows last updated %s days ago and before from table:%s",
-                    DAYS_TO_KEEP, table)
+                    "Deleting rows last updated before:%s from table:%s",
+                    delta_dt.strftime('%d.%m.%Y'), table)
                 query = session.query(table_model).with_for_update(
                     skip_locked=True)
                 rows = query.where(table_model.updated_at <= delta_dt)
