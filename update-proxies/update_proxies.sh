@@ -4,33 +4,13 @@
 set -e 
 
 PROXYPATH="/afs/cern.ch/user/e/egazzarr/private/clusters/escape-gitops/proxies/"
+RELEASENAMEDAEMONS="escape-daemons"
 
 cd ${PROXYPATH}
-eval $(ai-rc "ESCAPE WP2 CERN")
-
-export CERTDIR=reaper-certs/
-echo "Removing existing secrets"
-
-kubectl delete secret ${RELEASENAMEDAEMONS}-rucio-ca-bundle ${RELEASENAMEDAEMONS}-rucio-ca-bundle-reaper -n rucio
-
-echo "Creating " ${RELEASENAMEDAEMONS}-rucio-ca-bundle
-
-kubectl create secret generic ${RELEASENAMEDAEMONS}-rucio-ca-bundle --from-file=/etc/pki/tls/certs/CERN-bundle.pem -n rucio
-
-echo "Creating " ${RELEASENAMEDAEMONS}-rucio-ca-bundle-reaper
-
-mkdir ${CERTDIR}
-cp /etc/grid-security/certificates/*.0 ${CERTDIR}
-cp /etc/grid-security/certificates/*.signing_policy ${CERTDIR}
-
-kubectl create secret generic ${RELEASENAMEDAEMONS}-rucio-ca-bundle-reaper --from-file=${CERTDIR} -n rucio
-rm -rf ${CERTDIR}
-
 
 # generating the robot client proxies
 voms-proxy-init --cert ./client.crt --key ./client.key --out x509up_escape --voms escape
 
-RELEASENAMEDAEMONS="escape-daemons"
 export X509_USER_PROXY="/afs/cern.ch/user/e/egazzarr/private/clusters/escape-gitops/proxies/x509up_escape"
 export KUBECONFIG="/afs/cern.ch/user/e/egazzarr/private/clusters/escape-gitops/config"
 
@@ -51,6 +31,8 @@ kubectl delete secret prod-rucio-x509up -n crons
 kubectl create secret generic prod-rucio-x509up --from-file=x509up -n crons
 kubectl delete secret prod-rucio-x509up
 kubectl create secret generic prod-rucio-x509up --from-file=x509up
+kubectl delete secret prod-rucio-x509up -n rucio
+kubectl create secret generic prod-rucio-x509up --from-file=x509up -n rucio
 
 #FTS delegation
 ssh lxplus fts-delegation-init -s https://fts3-pilot.cern.ch:8446 --proxy ${X509_USER_PROXY}
